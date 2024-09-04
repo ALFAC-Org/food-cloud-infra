@@ -1,29 +1,29 @@
 variable "region" {
-  default     = ""
-  description = "The default AZ to provision to for the provider"
+  description = "AWS region"
+  type        = string
 }
 
 variable "vpc_cidr_block" {
-  default     = ""
-  description = "The default CIDR block for the VPC demo"
+  description = "CIDR block for the VPC"
+  type        = string
 }
 
 variable "subnet_private_cidr_block" {
-  default     = ""
-  description = "The default CIDR private block for the subnet demo"
+  description = "CIDR block for the private subnet"
+  type        = string
 }
 
 variable "subnet_public_cidr_block" {
-  default     = ""
-  description = "The default CIDR public block for the subnet demo"
+  description = "CIDR block for the public subnet"
+  type        = string
 }
 
 variable "subnet_database_cidr_block" {
-  default     = ""
-  description = "The default CIDR database block for the subnet demo"
+  description = "CIDR block for the database subnet"
+  type        = string
 }
 
 variable "subnet_availability_zone" {
-  default     = ""
-  description = "The default AZ for the subnet"
+  description = "Availability zone for the subnets"
+  type        = string
 }
