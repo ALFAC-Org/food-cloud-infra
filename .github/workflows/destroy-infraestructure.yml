@@ -37,7 +37,7 @@ jobs:
       - name: Terraform Destroy
         run: |
           terraform destroy -auto-approve \
-          -var "node_role_arn=${{ secrets.NODE_ROLE_ARN }}" \
+          -var "node_role_arn=${{ secrets.ARN_AWS_LAB_ROLE }}" \
           -var "region=${{ secrets.AWS_REGION }}" \
           -var "vpc_cidr_block=${{ secrets.VPC_CIDR_BLOCK }}" \
           -var "subnet_private_1_cidr_block=${{ secrets.SUBNET_PRIVATE_1_CIDR_BLOCK }}" \
