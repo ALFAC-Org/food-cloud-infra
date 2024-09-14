@@ -88,11 +88,13 @@ variable "subnet_database_2_cidr_block" {
 variable "subnet_availability_zone_az_1" {
   description = "Availability zone for the subnets"
   type        = string
+  default     = "us-east-1a"
 }
 
 variable "subnet_availability_zone_az_2" {
   description = "Availability zone 2 for the subnets"
   type        = string
+  default     = "us-east-1b"
 }
 
 # Database configuration
