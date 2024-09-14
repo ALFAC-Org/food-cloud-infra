@@ -78,7 +78,8 @@ jobs:
         -var "db_password=${{ secrets.DB_PASSWORD }}" \
         -var "image_name=${{ secrets.IMAGE_NAME }}" \
         -var "image_version=${{ secrets.IMAGE_VERSION }}" \
-        -var "cluster_name=${{ secrets.CLUSTER_NAME }}"
+        -var "cluster_name=${{ secrets.CLUSTER_NAME }}" \
+        -var "app_port=${{ secrets.APP_PORT }}" 
 
     # - name: Terraform Destroy
     #   run: |
@@ -119,4 +120,5 @@ jobs:
         -var "db_password=${{ secrets.DB_PASSWORD }}" \
         -var "image_name=${{ secrets.IMAGE_NAME }}" \
         -var "image_version=${{ secrets.IMAGE_VERSION }}" \
-        -var "cluster_name=${{ secrets.CLUSTER_NAME }}"
+        -var "cluster_name=${{ secrets.CLUSTER_NAME }}" \
+        -var "app_port=${{ secrets.APP_PORT }}" 

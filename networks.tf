@@ -121,7 +121,7 @@ resource "aws_route_table" "food_app_private_rt" {
 
 # Private route table association - 1
 resource "aws_route_table_association" "food_app_private_rt_association_1" {
-  subnet_id      = aws_subnet.food_private_subnet_2.id
+  subnet_id      = aws_subnet.food_private_subnet_1.id
   route_table_id = aws_route_table.food_app_private_rt.id
 }
 
