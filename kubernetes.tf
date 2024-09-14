@@ -46,14 +46,14 @@ resource "kubernetes_deployment" "deployment_food_app" {
             container_port = var.app_port
           }
 
-          # liveness_probe {
-          #   http_get {
-          #     path = "/"
-          #     port = var.app_port
-          #   }
-          #   initial_delay_seconds = 3
-          #   period_seconds        = 3
-          # }
+          liveness_probe {
+            http_get {
+              path = "/api/v2/health-check"
+              port = var.app_port
+            }
+            initial_delay_seconds = 3
+            period_seconds        = 3
+          }
         }
       }
     }
