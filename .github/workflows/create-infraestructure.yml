@@ -77,7 +77,8 @@ jobs:
         -var "db_username=${{ secrets.DB_USERNAME }}" \
         -var "db_password=${{ secrets.DB_PASSWORD }}" \
         -var "image_name=${{ secrets.IMAGE_NAME }}" \
-        -var "image_version=${{ secrets.IMAGE_VERSION }}"
+        -var "image_version=${{ secrets.IMAGE_VERSION }}" \
+        -var "cluster_name=${{ secrets.CLUSTER_NAME }}"
 
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
@@ -97,4 +98,5 @@ jobs:
         -var "db_username=${{ secrets.DB_USERNAME }}" \
         -var "db_password=${{ secrets.DB_PASSWORD }}" \
         -var "image_name=${{ secrets.IMAGE_NAME }}" \
-        -var "image_version=${{ secrets.IMAGE_VERSION }}"
+        -var "image_version=${{ secrets.IMAGE_VERSION }}" \
+        -var "cluster_name=${{ secrets.CLUSTER_NAME }}"

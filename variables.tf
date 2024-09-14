@@ -46,7 +46,7 @@ variable "instance_type" {
 variable "vpc_cidr_block" {
   description = "CIDR block for the VPC"
   type        = string
-  default     = "10.0.100.0/24"
+  default     = "10.0.0.0/16"
 }
 
 variable "subnet_public_1_cidr_block" {
@@ -120,5 +120,5 @@ variable "kubernetes_namespace" {
 variable "cluster_name" {
   description = "Name of the EKS Cluster"
   type        = string
-  default     = "basic-app-cluster"
+  default     = "food-cluster"
 }
