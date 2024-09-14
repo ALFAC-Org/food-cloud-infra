@@ -1,6 +1,7 @@
 resource "kubernetes_deployment" "deployment_food_app" {
+  depends_on = [aws_eks_node_group.food_node_group]
   metadata {
-    name = "deployment-food-app"
+    name      = "deployment-food-app"
     namespace = var.kubernetes_namespace
   }
 
@@ -61,7 +62,7 @@ resource "kubernetes_deployment" "deployment_food_app" {
 
 resource "kubernetes_service" "food_app_service" {
   metadata {
-    name = "service-food-app"
+    name      = "service-food-app"
     namespace = var.kubernetes_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
@@ -85,7 +86,7 @@ resource "kubernetes_service" "food_app_service" {
 # So let's use kubernetes_ingress_v1 instead of kubernetes_ingress
 resource "kubernetes_ingress_v1" "food_app_ingress" {
   metadata {
-    name = "ingress-food-app"
+    name      = "ingress-food-app"
     namespace = var.kubernetes_namespace
   }
 

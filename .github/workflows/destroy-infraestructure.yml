@@ -50,4 +50,5 @@ jobs:
           -var "subnet_availability_zone_az_2=${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_2 }}" \
           -var "db_username=${{ secrets.DB_USERNAME }}" \
           -var "db_password=${{ secrets.DB_PASSWORD }}" \
-          -var "image_version=latest"
+          -var "image_name=${{ secrets.IMAGE_NAME }}" \
+          -var "image_version=${{ secrets.IMAGE_VERSION }}"
