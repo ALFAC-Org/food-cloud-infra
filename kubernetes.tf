@@ -42,13 +42,13 @@ resource "kubernetes_deployment" "deployment_food_app" {
           }
 
           port {
-            container_port = 8080
+            container_port = var.app_port
           }
 
           # liveness_probe {
           #   http_get {
           #     path = "/"
-          #     port = 8080
+          #     port = var.app_port
           #   }
           #   initial_delay_seconds = 3
           #   period_seconds        = 3
@@ -74,8 +74,8 @@ resource "kubernetes_service" "food_app_service" {
       app = "deployment-food-app"
     }
     port {
-      port        = 8080
-      target_port = 8080
+      port        = var.app_port
+      target_port = var.app_port
     }
     type = "LoadBalancer"
   }
