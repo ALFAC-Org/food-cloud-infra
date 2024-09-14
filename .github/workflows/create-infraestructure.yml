@@ -2,6 +2,9 @@ name: AWS - Create Infrastructure
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feature/add-create-infra
 
 jobs:
   terraform:
