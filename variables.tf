@@ -14,7 +14,7 @@ variable "image_version" {
 variable "image_name" {
   description = "The name of the image to deploy"
   type        = string
-  default     = "carlohcs/basic-app"
+  default     = "carlohcs/food-repo:withoutdb"
 }
 
 variable "app_port" {
