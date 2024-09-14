@@ -103,7 +103,7 @@ jobs:
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
       run: |
-        terraform apply -auto-approve -re \
+        terraform apply -auto-approve \
         -var "node_role_arn=${{ secrets.ARN_AWS_LAB_ROLE }}" \
         -var "region=${{ secrets.AWS_REGION }}" \
         -var "vpc_cidr_block=${{ secrets.VPC_CIDR_BLOCK }}" \
