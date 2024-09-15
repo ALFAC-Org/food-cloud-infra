@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feature/add-create-infra
+      - main
 
 jobs:
   terraform:
