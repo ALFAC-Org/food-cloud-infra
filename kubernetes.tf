@@ -55,7 +55,7 @@ resource "kubernetes_deployment" "deployment_food_app" {
           #     path = "/api/v2/health-check"
           #     port = var.app_port
           #   }
-          #   initial_delay_seconds = 3
+          #   initial_delay_seconds = 30
           #   period_seconds        = 3
           # }
         }
