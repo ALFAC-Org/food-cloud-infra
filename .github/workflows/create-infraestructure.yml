@@ -62,6 +62,9 @@ jobs:
         terraform plan \
         -var "node_role_arn=${{ secrets.ARN_AWS_LAB_ROLE }}" \
         -var "aws_region=${{ secrets.AWS_REGION }}" \
+        -var "aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+        -var "aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+        -var "aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" \
         -var "vpc_cidr_block=${{ secrets.VPC_CIDR_BLOCK }}" \
         -var "subnet_private_1_cidr_block=${{ secrets.SUBNET_PRIVATE_1_CIDR_BLOCK }}" \
         -var "subnet_private_2_cidr_block=${{ secrets.SUBNET_PRIVATE_2_CIDR_BLOCK }}" \
@@ -84,6 +87,9 @@ jobs:
         terraform apply -auto-approve \
         -var "node_role_arn=${{ secrets.ARN_AWS_LAB_ROLE }}" \
         -var "aws_region=${{ secrets.AWS_REGION }}" \
+        -var "aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+        -var "aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+        -var "aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" \
         -var "vpc_cidr_block=${{ secrets.VPC_CIDR_BLOCK }}" \
         -var "subnet_private_1_cidr_block=${{ secrets.SUBNET_PRIVATE_1_CIDR_BLOCK }}" \
         -var "subnet_private_2_cidr_block=${{ secrets.SUBNET_PRIVATE_2_CIDR_BLOCK }}" \
