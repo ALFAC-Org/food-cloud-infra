@@ -19,8 +19,8 @@ variable "image_name" {
 
 variable "app_port" {
   description = "The port where the application will be listening"
-  type        = number
-  default     = 8080
+  type        = string
+  default     = "8080"
 }
 
 # AWS provider configuration
