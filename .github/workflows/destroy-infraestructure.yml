@@ -1,4 +1,4 @@
-name: AWS - Destroy Infrastructure
+name: AWS - Destrói infraestrutura
 
 on:
   workflow_dispatch:
@@ -19,8 +19,8 @@ jobs:
       SUBNET_PRIVATE_2_CIDR_BLOCK: ${{ secrets.SUBNET_PRIVATE_2_CIDR_BLOCK }}
       SUBNET_DATABASE_1_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_1_CIDR_BLOCK }}
       SUBNET_DATABASE_2_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_2_CIDR_BLOCK }}
-      SUBNET_AVAILABILITY_ZONE_AZ_1 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_1  }}
-      SUBNET_AVAILABILITY_ZONE_AZ_2 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_2  }}
+      SUBNET_AVAILABILITY_ZONE_AZ_1: ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_1 }}
+      SUBNET_AVAILABILITY_ZONE_AZ_2: ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_2 }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
