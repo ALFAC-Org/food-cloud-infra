@@ -17,7 +17,7 @@ fi
 METHOD=$1
 shift
 
-$PARAMS="$@"
+PARAMS="$@"
 
 terraform $METHOD $PARAMS \
 -var "environment=$ENVIRONMENT" \
