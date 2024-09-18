@@ -22,6 +22,7 @@ PARAMS="$@"
 terraform $METHOD $PARAMS \
 -var "environment=$ENVIRONMENT" \
 -var "image_name=$IMAGE_NAME" \
+-var "image_username=$DOCKERHUB_USERNAME" \
 -var "image_version=$IMAGE_VERSION" \
 -var "app_port=$APP_PORT" \
 -var "aws_region=$AWS_REGION" \

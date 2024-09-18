@@ -32,12 +32,12 @@ resource "kubernetes_deployment" "deployment_food_app" {
 
         container {
           name  = "deployment-food-app-container"
-          image = "${var.image_name}:${var.image_version}"
+          image = "${var.image_username}/${var.image_name}:${var.image_version}"
 
           resources {
             requests = {
-              memory: "512Mi"
-              cpu: "500m"
+              memory : "512Mi"
+              cpu : "500m"
             }
             limits = {
               memory = "1Gi"

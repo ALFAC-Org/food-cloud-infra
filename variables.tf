@@ -8,7 +8,13 @@ variable "environment" {
 variable "image_name" {
   description = "The name of the image to deploy"
   type        = string
-  default     = "carlohcs/food-repo:withoutdb"
+  default     = "food-repo"
+}
+
+variable "image_username" {
+  description = "The username of the image to deploy"
+  type        = string
+  default     = "carlohcs"
 }
 
 variable "image_version" {
