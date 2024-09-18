@@ -37,4 +37,5 @@ terraform $METHOD $PARAMS \
 -var "subnet_availability_zone_az_2=$SUBNET_AVAILABILITY_ZONE_AZ_2" \
 -var "db_username=$DB_USERNAME" \
 -var "db_password=$DB_PASSWORD" \
--var "kubernetes_namespace=$CLUSTER_NAMESPACE"
+-var "kubernetes_namespace=$CLUSTER_NAMESPACE" \
+-var "cluster_name=$CLUSTER_NAME"
