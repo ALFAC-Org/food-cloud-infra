@@ -5,16 +5,16 @@ variable "environment" {
   default     = "development"
 }
 
-variable "image_version" {
-  description = "The version of the image to deploy"
-  type        = string
-  default     = "latest"
-}
-
 variable "image_name" {
   description = "The name of the image to deploy"
   type        = string
   default     = "carlohcs/food-repo:withoutdb"
+}
+
+variable "image_version" {
+  description = "The version of the image to deploy"
+  type        = string
+  default     = "latest"
 }
 
 variable "app_port" {
@@ -30,34 +30,10 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "aws_access_key" {
-  description = "The AWS access key"
-  type        = string
-  sensitive   = true
-}
-
-variable "aws_secret_key" {
-  description = "The AWS secret key"
-  type        = string
-  sensitive   = true
-}
-
-variable "aws_session_token" {
-  description = "The AWS session token"
-  type        = string
-  sensitive   = true
-}
-
 variable "node_role_arn" {
   description = "ARN of the IAM Role that will be associated with the Node Group"
   type        = string
   sensitive   = true
-}
-
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.medium"
 }
 
 # VPC configuration
@@ -141,4 +117,10 @@ variable "cluster_name" {
   description = "Name of the EKS Cluster"
   type        = string
   default     = "food-cluster"
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.medium"
 }
