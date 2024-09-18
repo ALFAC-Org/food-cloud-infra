@@ -1,3 +1,34 @@
+resource "kubernetes_secret" "secret_food" {
+  metadata {
+    name = "secret-food"
+  }
+
+  type = "Opaque"
+
+  data = {
+    APPLICATION_VERSION          = var.image_version
+    APPLICATION_DATABASE_VERSION = "latest"
+    MYSQL_ROOT_PASSWORD          = var.db_password
+    # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
+    MYSQL_DATABASE               = "pedidos"
+    MYSQL_USER                   = var.db_password
+    MYSQL_PASSWORD               = var.db_password
+    SPRING_DATASOURCE_USERNAME   = var.db_password
+    SPRING_DATASOURCE_PASSWORD   = var.db_password
+  }
+}
+
+resource "kubernetes_config_map" "cm_food" {
+  metadata {
+    name = "cm-food"
+  }
+
+  # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
+  data = {
+    SPRING_DATASOURCE_URL = "jdbc:mysql://svc-db-food:3306/pedidos"
+  }
+}
+
 resource "kubernetes_deployment" "deployment_food_app" {
   metadata {
     name      = "deployment-food-app"
@@ -113,37 +144,6 @@ resource "kubernetes_ingress_v1" "food_app_ingress" {
         }
       }
     }
-  }
-}
-
-resource "kubernetes_secret" "secret_food" {
-  metadata {
-    name = "secret-food"
-  }
-
-  type = "Opaque"
-
-  data = {
-    APPLICATION_VERSION          = var.image_version
-    APPLICATION_DATABASE_VERSION = "latest"
-    MYSQL_ROOT_PASSWORD          = var.db_password
-    # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
-    MYSQL_DATABASE               = "pedidos"
-    MYSQL_USER                   = var.db_password
-    MYSQL_PASSWORD               = var.db_password
-    SPRING_DATASOURCE_USERNAME   = var.db_password
-    SPRING_DATASOURCE_PASSWORD   = var.db_password
-  }
-}
-
-resource "kubernetes_config_map" "cm_food" {
-  metadata {
-    name = "cm-food"
-  }
-
-  # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
-  data = {
-    SPRING_DATASOURCE_URL = "jdbc:mysql://svc-db-food:3306/pedidos"
   }
 }
 
