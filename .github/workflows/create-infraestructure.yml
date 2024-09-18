@@ -7,32 +7,32 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
-    env:
-      # Application configuration
-      ENVIRONMENT: 'development'
-      IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-      IMAGE_VERSION: ${{ secrets.IMAGE_VERSION }}
-      APP_PORT: ${{ secrets.APP_PORT }}
-      # AWS provider configuration
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      # VPC configuration
-      VPC_CIDR_BLOCK: ${{ secrets.VPC_CIDR_BLOCK }}
-      SUBNET_PUBLIC_1_CIDR_BLOCK: ${{ secrets.SUBNET_PUBLIC_1_CIDR_BLOCK }}
-      SUBNET_PUBLIC_2_CIDR_BLOCK: ${{ secrets.SUBNET_PUBLIC_2_CIDR_BLOCK }}
-      SUBNET_PRIVATE_1_CIDR_BLOCK: ${{ secrets.SUBNET_PRIVATE_1_CIDR_BLOCK }}
-      SUBNET_PRIVATE_2_CIDR_BLOCK: ${{ secrets.SUBNET_PRIVATE_2_CIDR_BLOCK }}
-      SUBNET_DATABASE_1_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_1_CIDR_BLOCK }}
-      SUBNET_DATABASE_2_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_2_CIDR_BLOCK }}
-      SUBNET_AVAILABILITY_ZONE_AZ_1 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_1 }}
-      SUBNET_AVAILABILITY_ZONE_AZ_2 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_2 }}
-      # Database configuration
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      # Kubernetes configuration
-      CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+    # env:
+    #   # Application configuration
+    #   ENVIRONMENT: 'development'
+    #   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+    #   IMAGE_VERSION: ${{ secrets.IMAGE_VERSION }}
+    #   APP_PORT: ${{ secrets.APP_PORT }}
+    #   # AWS provider configuration
+    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+    #   AWS_REGION: ${{ secrets.AWS_REGION }}
+    #   # VPC configuration
+    #   VPC_CIDR_BLOCK: ${{ secrets.VPC_CIDR_BLOCK }}
+    #   SUBNET_PUBLIC_1_CIDR_BLOCK: ${{ secrets.SUBNET_PUBLIC_1_CIDR_BLOCK }}
+    #   SUBNET_PUBLIC_2_CIDR_BLOCK: ${{ secrets.SUBNET_PUBLIC_2_CIDR_BLOCK }}
+    #   SUBNET_PRIVATE_1_CIDR_BLOCK: ${{ secrets.SUBNET_PRIVATE_1_CIDR_BLOCK }}
+    #   SUBNET_PRIVATE_2_CIDR_BLOCK: ${{ secrets.SUBNET_PRIVATE_2_CIDR_BLOCK }}
+    #   SUBNET_DATABASE_1_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_1_CIDR_BLOCK }}
+    #   SUBNET_DATABASE_2_CIDR_BLOCK: ${{ secrets.SUBNET_DATABASE_2_CIDR_BLOCK }}
+    #   SUBNET_AVAILABILITY_ZONE_AZ_1 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_1 }}
+    #   SUBNET_AVAILABILITY_ZONE_AZ_2 : ${{ secrets.SUBNET_AVAILABILITY_ZONE_AZ_2 }}
+    #   # Database configuration
+    #   DB_USERNAME: ${{ secrets.DB_USERNAME }}
+    #   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    #   # Kubernetes configuration
+    #   CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
 
     steps:
     - name: Checkout code
@@ -74,8 +74,7 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform.sh plan
+      run: bash terraform.sh plan
 
     - name: Terraform Apply
-      # if: github.ref == 'refs/heads/main'
-      run: terraform.sh apply -auto-approve
+      run: bash terraform.sh apply -auto-approve
