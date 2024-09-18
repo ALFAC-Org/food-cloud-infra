@@ -15,8 +15,11 @@ if [ -z "$1" ]; then
 fi
 
 METHOD=$1
+shift
 
-terraform $METHOD "$@" \
+$PARAMS="$@"
+
+terraform $METHOD $PARAMS \
 -var "environment=$ENVIRONMENT" \
 -var "image_name=$IMAGE_NAME" \
 -var "image_version=$IMAGE_VERSION" \
