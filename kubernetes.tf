@@ -8,13 +8,14 @@ resource "kubernetes_secret" "secret_food" {
   data = {
     APPLICATION_VERSION          = var.image_version
     APPLICATION_DATABASE_VERSION = "latest"
+    APPLICATION_PORT             = var.app_port
     MYSQL_ROOT_PASSWORD          = var.db_password
     # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
-    MYSQL_DATABASE               = "pedidos"
-    MYSQL_USER                   = var.db_password
-    MYSQL_PASSWORD               = var.db_password
-    SPRING_DATASOURCE_USERNAME   = var.db_password
-    SPRING_DATASOURCE_PASSWORD   = var.db_password
+    MYSQL_DATABASE             = "pedidos"
+    MYSQL_USER                 = var.db_password
+    MYSQL_PASSWORD             = var.db_password
+    SPRING_DATASOURCE_USERNAME = var.db_password
+    SPRING_DATASOURCE_PASSWORD = var.db_password
   }
 }
 
