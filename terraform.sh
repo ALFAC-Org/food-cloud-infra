@@ -16,7 +16,7 @@ fi
 
 METHOD=$1
 
-terraform $METHOD \
+terraform $METHOD "$@" \
 -var "environment=$ENVIRONMENT" \
 -var "image_name=$IMAGE_NAME" \
 -var "image_version=$IMAGE_VERSION" \
