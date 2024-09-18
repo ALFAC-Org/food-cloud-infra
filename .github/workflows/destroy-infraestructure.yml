@@ -10,12 +10,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      
       - name: Load environment variables
         uses: thaind0/envfile@v1
         with:
           secrets: ${{ toJSON(secrets) }}
-          file:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
