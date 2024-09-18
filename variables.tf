@@ -73,18 +73,6 @@ variable "subnet_private_2_cidr_block" {
   default     = "10.0.4.0/24"
 }
 
-variable "subnet_database_1_cidr_block" {
-  description = "CIDR block for the database subnet"
-  type        = string
-  default     = "10.0.5.0/24"
-}
-
-variable "subnet_database_2_cidr_block" {
-  description = "CIDR block for the database subnet"
-  type        = string
-  default     = "10.0.6.0/24"
-}
-
 variable "subnet_availability_zone_az_1" {
   description = "Availability zone for the subnets"
   type        = string
@@ -95,21 +83,6 @@ variable "subnet_availability_zone_az_2" {
   description = "Availability zone 2 for the subnets"
   type        = string
   default     = "us-east-1b"
-}
-
-# Database configuration
-variable "db_username" {
-  description = "The username for the RDS instance"
-  type        = string
-  sensitive   = true
-  default     = "fooddbuser"
-}
-
-variable "db_password" {
-  description = "The password for the RDS instance"
-  type        = string
-  sensitive   = true
-  default     = "fooddbpass"
 }
 
 # Kubernetes configuration
@@ -129,4 +102,10 @@ variable "instance_type" {
   description = "EC2 instance type"
   type        = string
   default     = "t3.medium"
+}
+
+variable "bucket-food-lambdas" {
+  description = "The name of the bucket where the lambdas will be stored"
+  type        = string
+  default     = "bucket-food-lambdas"
 }
