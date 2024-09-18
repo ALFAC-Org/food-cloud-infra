@@ -23,4 +23,4 @@ jobs:
         run: terraform init -reconfigure
 
       - name: Terraform Destroy
-        run: bash terraform.sh destroy
+        run: bash terraform.sh destroy -auto-approve
