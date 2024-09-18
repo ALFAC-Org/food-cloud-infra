@@ -80,6 +80,9 @@ resource "kubernetes_deployment" "deployment_food_app" {
             config_map_ref {
               name = kubernetes_config_map.cm_food.metadata[0].name
             }
+          }
+
+          env_from {
             secret_ref {
               name = kubernetes_secret.secret_food.metadata[0].name
             }
