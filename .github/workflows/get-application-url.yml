@@ -1,10 +1,6 @@
 name: AWS - Get Application URL
 
 on:
-  # workflow_run:
-    # workflows: ["Apply new version of the Application"]
-    # types:
-    #   - completed
   push:
     branches:
       - feature/add-create-infra
