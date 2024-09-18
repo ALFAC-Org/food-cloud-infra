@@ -42,7 +42,6 @@ jobs:
       uses: thaind0/envfile@v1
       with:
         secrets: ${{ toJSON(secrets) }}
-        file:
 
     - name: Install AWS CLI
       id: check_aws_cli
