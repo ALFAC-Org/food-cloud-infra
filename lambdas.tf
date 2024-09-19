@@ -17,12 +17,6 @@ resource "aws_security_group" "lambda_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   tags = {
     Name = "lambda_sg"
@@ -44,7 +38,7 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
     ]
     security_group_ids = [
       aws_security_group.lambda_sg.id,
-      #aws_security_group.eks_security_group.id
+      aws_security_group.eks_security_group.id
     ]
   }
 
