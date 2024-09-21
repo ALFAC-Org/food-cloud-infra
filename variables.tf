@@ -109,3 +109,21 @@ variable "bucket-food-lambdas" {
   type        = string
   default     = "bucket-food-lambdas"
 }
+
+variable "db_username" {
+  description = "Username for the database"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Password for the database"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_name" {
+  description = "Name for the database"
+  type        = string
+  sensitive   = true
+  default = "fooddb"
+}

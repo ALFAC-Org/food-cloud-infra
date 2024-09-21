@@ -8,6 +8,7 @@ resource "aws_security_group" "lambda_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
+    # TODO: Allow API-GATEWAY
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -47,7 +48,7 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
   #     DB_HOST     = aws_db_instance.food_database.address
   #     DB_USER     = var.db_username
   #     DB_PASSWORD = var.db_password
-  #     DB_NAME     = "food_db"
+  #     DB_NAME     = "fooddb"
   #   }
   # }
 
