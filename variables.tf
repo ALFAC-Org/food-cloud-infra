@@ -110,12 +110,20 @@ variable "instance_type" {
   default     = "t3.medium"
 }
 
+# Lambda configuration
+variable "lambda_sg_name" {
+  description = "Security Group Name for the Lambda"
+  type        = string
+  default     = "lambda_sg"
+}
+
 variable "bucket_food_lambdas" {
   description = "The name of the bucket where the lambdas will be stored"
   type        = string
   default     = "bucket-food-lambdas"
 }
 
+# Database configuration
 variable "db_username" {
   description = "Username for the database"
   type        = string
@@ -132,10 +140,4 @@ variable "db_name" {
   type        = string
   sensitive   = true
   default     = "fooddb"
-}
-
-variable "lambda_sg_name" {
-  description = "Security Group Name for the Lambda"
-  type        = string
-  default     = "lambda_sg"
 }
