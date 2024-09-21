@@ -2,12 +2,12 @@
 resource "aws_security_group" "lambda_sg" {
   name        = "lambda_sg"
   description = "Allow traffic for Lambda function"
-  vpc_id = aws_vpc.food_vpc.id
+  vpc_id      = aws_vpc.food_vpc.id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
     # TODO: Allow API-GATEWAY
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -20,7 +20,7 @@ resource "aws_security_group" "lambda_sg" {
   }
 
   tags = {
-    Name = "lambda_sg"
+    Name = var.lambda_sg_name
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
   role          = var.node_role_arn
   handler       = "index.handler"
   runtime       = "nodejs18.x"
-  s3_bucket     = var.bucket-food-lambdas
+  s3_bucket     = var.bucket_food_lambdas
   s3_key        = "valida_cpf_usuario.zip"
   vpc_config {
     subnet_ids = [
@@ -54,7 +54,6 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
 
   # Adicionando depends_on para garantir a ordem correta da dependência entre security groups
   depends_on = [
-
     aws_security_group.eks_security_group,
     aws_s3_object.valida_cpf_usuario
   ]

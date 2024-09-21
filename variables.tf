@@ -104,7 +104,7 @@ variable "instance_type" {
   default     = "t3.medium"
 }
 
-variable "bucket-food-lambdas" {
+variable "bucket_food_lambdas" {
   description = "The name of the bucket where the lambdas will be stored"
   type        = string
   default     = "bucket-food-lambdas"
@@ -125,5 +125,11 @@ variable "db_name" {
   description = "Name for the database"
   type        = string
   sensitive   = true
-  default = "fooddb"
+  default     = "fooddb"
+}
+
+variable "lambda_sg_name" {
+  description = "Security Group Name for the Lambda"
+  type        = string
+  default     = "lambda_sg"
 }

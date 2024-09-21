@@ -9,7 +9,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "lambdas" {
-  bucket = var.bucket-food-lambdas
+  bucket = var.bucket_food_lambdas
 }
 
 resource "aws_s3_object" "valida_cpf_usuario" {
