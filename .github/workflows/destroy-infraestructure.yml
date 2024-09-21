@@ -24,3 +24,13 @@ jobs:
 
       - name: Terraform Destroy
         run: bash terraform.sh destroy -auto-approve
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Delete S3 bucket
+        run: aws s3 rb s3://${{ secrets.AWS_BUCKET_NAME }} --force
