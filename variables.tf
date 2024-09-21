@@ -43,6 +43,12 @@ variable "node_role_arn" {
 }
 
 # VPC configuration
+variable "vpc_name" {
+  description = "VPC Name - VPC Created in the infrastructure repo"
+  type        = string
+  default     = "food_vpc"
+}
+
 variable "vpc_cidr_block" {
   description = "CIDR block for the VPC"
   type        = string

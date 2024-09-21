@@ -11,6 +11,7 @@
 #   path_part   = "auth"
 # }
 
+# https://food-api-gateway.execute-api.us-east-1.amazonaws.com/prod/auth?cpf=12345678900 
 # # Define o método do API Gateway para aceitar um parâmetro
 # resource "aws_api_gateway_method" "auth_method" {
 #   rest_api_id   = aws_api_gateway_rest_api.rest_api.id
