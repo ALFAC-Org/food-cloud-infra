@@ -23,6 +23,11 @@ output "public_subnet_2_id" {
   description = "This is the second Public Subnet ID for later use"
 }
 
+output "lambda_sg_id" {
+  value       = "${aws_security_group.lambda_sg.id}"
+  description = "This is the Lambda Security Group ID for later use"
+}
+
 output "app_name" {
   value = kubernetes_service.food_app_service.metadata[0].name
 }

@@ -40,4 +40,5 @@ terraform $METHOD $PARAMS \
 -var "db_username=$DB_USERNAME" \
 -var "db_password=$DB_PASSWORD" \
 -var "kubernetes_namespace=$CLUSTER_NAMESPACE" \
--var "cluster_name=$CLUSTER_NAME"
+-var "cluster_name=$CLUSTER_NAME" \
+-var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME"
