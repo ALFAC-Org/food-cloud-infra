@@ -141,3 +141,9 @@ variable "db_name" {
   sensitive   = true
   default     = "fooddb"
 }
+
+variable "db_host" {
+  description = "Host for the database"
+  type        = string
+  default     = ""
+}

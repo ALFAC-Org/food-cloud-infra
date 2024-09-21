@@ -33,12 +33,12 @@ terraform $METHOD $PARAMS \
 -var "subnet_private_2_cidr_block=$SUBNET_PRIVATE_2_CIDR_BLOCK" \
 -var "subnet_public_1_cidr_block=$SUBNET_PUBLIC_1_CIDR_BLOCK" \
 -var "subnet_public_2_cidr_block=$SUBNET_PUBLIC_2_CIDR_BLOCK" \
--var "subnet_database_1_cidr_block=$SUBNET_DATABASE_1_CIDR_BLOCK" \
--var "subnet_database_2_cidr_block=$SUBNET_DATABASE_2_CIDR_BLOCK" \
 -var "subnet_availability_zone_az_1=$SUBNET_AVAILABILITY_ZONE_AZ_1" \
 -var "subnet_availability_zone_az_2=$SUBNET_AVAILABILITY_ZONE_AZ_2" \
 -var "db_username=$DB_USERNAME" \
 -var "db_password=$DB_PASSWORD" \
+-var "db_name=$DB_NAME" \
+-var "db_host=$DB_HOST" \
 -var "kubernetes_namespace=$CLUSTER_NAMESPACE" \
 -var "cluster_name=$CLUSTER_NAME" \
 -var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME"
