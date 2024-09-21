@@ -1,6 +1,6 @@
 # Security Group for Lambda
 resource "aws_security_group" "lambda_sg" {
-  name        = "lambda_sg"
+  name        = var.lambda_sg_name
   description = "Allow traffic for Lambda function"
   vpc_id      = aws_vpc.food_vpc.id
 
