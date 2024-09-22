@@ -29,6 +29,12 @@ variable "app_port" {
   default     = "8080"
 }
 
+variable "enable_flyway" {
+  description = "Enable Flyway to run the migrations"
+  type        = bool
+  default     = false
+}
+
 # AWS provider configuration
 variable "aws_region" {
   description = "AWS region"

@@ -11,6 +11,7 @@ resource "kubernetes_secret" "secret_food" {
     APPLICATION_PORT             = var.app_port
     SPRING_DATASOURCE_USERNAME   = var.db_username
     SPRING_DATASOURCE_PASSWORD   = var.db_password
+    ENABLE_FLYWAY                = var.enable_flyway
   }
 }
 
