@@ -10,6 +10,8 @@ resource "aws_eks_cluster" "food_cluster" {
       aws_subnet.food_private_subnet_1.id,
       aws_subnet.food_private_subnet_2.id
     ]
+    
+    security_group_ids = [aws_security_group.eks_security_group.id]
   }
 
   tags = {
@@ -71,6 +73,7 @@ resource "aws_eks_node_group" "food_node_group" {
 # Security group to EKS Cluster
 resource "aws_security_group" "eks_security_group" {
   vpc_id = aws_vpc.food_vpc.id
+  description = "Allow traffic for EKS Cluster (food)"
 
   ingress {
     from_port   = 0
