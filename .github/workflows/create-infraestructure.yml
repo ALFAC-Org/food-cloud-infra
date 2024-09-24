@@ -19,13 +19,19 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Create S3 Bucket if it does not exist
+      - name: Delete S3 Bucket if it exists
         run: |
           if aws s3 ls "s3://${{ secrets.AWS_BUCKET_NAME }}" 2>/dev/null; then
-            echo "Bucket already exists."
+            aws s3 rb "s3://${{ secrets.AWS_BUCKET_NAME }}" --force
+            echo "Bucket deleted."
           else
-            aws s3api create-bucket --bucket "${{ secrets.AWS_BUCKET_NAME }}" --region "${{ secrets.AWS_REGION }}"
+            echo "Bucket does not exist."
           fi
+      
+      - name: Create S3 Bucket
+        run: |
+          aws s3api create-bucket --bucket "${{ secrets.AWS_BUCKET_NAME }}" --region "${{ secrets.AWS_REGION }}"
+          echo "Bucket created."
 
       - name: Load environment variables
         uses: thaind0/envfile@v1
