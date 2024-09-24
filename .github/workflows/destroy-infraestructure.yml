@@ -33,7 +33,16 @@ jobs:
       - name: Terraform Destroy
         run: bash terraform.sh destroy -auto-approve
 
-      - name: Delete S3 bucket
+      - name: Delete S3 Buckets
         run: |
-          aws s3 rb s3://${{ secrets.AWS_BUCKET_NAME }} --force
-          aws s3 rb s3://${{ secrets.LAMBDA_BUCKET_NAME }} --force
+          if aws s3 rb s3://${{ secrets.AWS_BUCKET_NAME }} --force; then
+            echo "Successfully deleted bucket: ${{ secrets.AWS_BUCKET_NAME }}"
+          else
+            echo "Failed to delete bucket: ${{ secrets.AWS_BUCKET_NAME }}"
+          fi
+
+          if aws s3 rb s3://${{ secrets.LAMBDA_BUCKET_NAME }} --force; then
+            echo "Successfully deleted bucket: ${{ secrets.LAMBDA_BUCKET_NAME }}"
+          else
+            echo "Failed to delete bucket: ${{ secrets.LAMBDA_BUCKET_NAME }}"
+          fi

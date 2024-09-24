@@ -2,12 +2,21 @@
 
 Este é um repositório Git que utiliza o Terraform para gerenciar infraestrutura na nuvem da aplicação [Fast Food - ALFAC](https://github.com/ALFAC-Org/food). Nele, você encontrará arquivos de configuração do Terraform que definem a infraestrutura como código. No momento, o repositório está focado na Amazon Web Services (AWS), entretanto, o repositório é flexível para adaptação para outros provedores de serviços de nuvem.
 
-> [!WARNING]  
-> **Para completo funcionamento do sistema, é necessário seguir todo o fluxo de provisionamento: 1. A provisão deste repositório; 2. a provisão do repositório de banco de dados [https://github.com/ALFAC-Org/food-database](https://github.com/ALFAC-Org/food-database); 3. A provisão das lambdas [https://github.com/ALFAC-Org/food-serveless-function](https://github.com/ALFAC-Org/food-serveless-function); 4. E por fim, a o provionamento da aplicação principal, utilizando de todos os recursos anteriormente criados em [https://github.com/ALFAC-Org/food](https://github.com/ALFAC-Org/food)**
+> [!WARNING]
+> **Para completo funcionamento do sistema, é necessário seguir todo o fluxo de provisionamento: 1. A provisão deste repositório; 2. a provisão do repositório de banco de dados [https://github.com/ALFAC-Org/food-database](https://github.com/ALFAC-Org/food-database); 3. A provisão das lambdas [https://github.com/ALFAC-Org/food-serveless-function](https://github.com/ALFAC-Org/food-serveless-function); 4. E por fim, a o provisionamento da aplicação principal, utilizando de todos os recursos anteriormente criados em [https://github.com/ALFAC-Org/food](https://github.com/ALFAC-Org/food)**
 
 ![passos-seguir](./docs/passos.png)
 
 ## Como rodar o projeto
+
+Variáveis a se trocar:
+
+- `ARN_AWS_LAB_ROLE`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
+- `AWS_BUCKET_NAME`
+- `LAMBDA_BUCKET_NAME`
 
 Existem duas formas com as quais você pode ver esse repositório em ação:
 
@@ -15,7 +24,6 @@ Existem duas formas com as quais você pode ver esse repositório em ação:
 - Localmente
 
 ### Via GitHub Actions (recomendada)
-
 
 <details>
   <summary>Passo a passo</summary>
