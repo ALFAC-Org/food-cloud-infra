@@ -29,9 +29,4 @@ echo "Setting up buckets..."
 # Cria e verifica o bucket principal
 create_and_verify_bucket "$AWS_BUCKET_NAME" "backend"
 
-# Cria e verifica o bucket de lambdas
-create_and_verify_bucket "$LAMBDA_BUCKET_NAME" "lambda"
-
-echo "Setting up buckets - DONE."
-
 echo "Setting up buckets - DONE."
