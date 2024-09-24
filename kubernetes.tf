@@ -13,6 +13,10 @@ resource "kubernetes_secret" "secret_food" {
     SPRING_DATASOURCE_PASSWORD   = var.db_password
     ENABLE_FLYWAY                = var.enable_flyway
   }
+
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 resource "kubernetes_config_map" "cm_food" {
@@ -23,6 +27,10 @@ resource "kubernetes_config_map" "cm_food" {
   # TODO: Quando tivermos as configurações de banco, precisamos adaptar aqui
   data = {
     SPRING_DATASOURCE_URL = "jdbc:mysql://${var.db_host}:3306/${var.db_name}"
+  }
+
+  lifecycle {
+    prevent_destroy = false
   }
 }
 
