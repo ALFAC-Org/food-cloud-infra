@@ -1,11 +1,5 @@
 terraform {
-  backend "s3" {
-    bucket = var.aws_bucket_name
-    key    = "development/backend.tfstate"
-    # region = var.aws_region
-    # Variables doesn't work here :(
-    region = var.region
-  }
+  backend "s3" {}
 }
 
 resource "aws_s3_bucket" "lambdas" {
