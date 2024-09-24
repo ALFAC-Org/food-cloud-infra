@@ -34,4 +34,6 @@ jobs:
         run: bash terraform.sh destroy -auto-approve
 
       - name: Delete S3 bucket
-        run: aws s3 rb s3://${{ secrets.AWS_BUCKET_NAME }} --force
+        run: |
+          aws s3 rb s3://${{ secrets.AWS_BUCKET_NAME }} --force
+          aws s3 rb s3://${{ secrets.LAMBDA_BUCKET_NAME }} --force

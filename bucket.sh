@@ -13,24 +13,14 @@ create_and_verify_bucket() {
     local bucket_name=$1
     local bucket_type=$2
     
-    # Deleta o bucket se ele existir
     if aws s3 ls "s3://$bucket_name" 2>/dev/null; then
-        aws s3 rb "s3://$bucket_name" --force
-        echo "$bucket_type Bucket deleted."
+      echo "$bucket_type Bucket is already created."
     else
-        echo "$bucket_type Bucket does not exist."
-    fi
-    
-    # Cria o bucket
-    aws s3api create-bucket --bucket "$bucket_name" --region "$AWS_REGION"
-    echo "$bucket_type Bucket created."
-    
-    # Verifica se o bucket foi criado
-    if aws s3 ls "s3://$bucket_name" 2>/dev/null; then
-        echo "$bucket_type Bucket verified."
-    else
-        echo "[bucket] Erro: Falha ao criar $bucket_type Bucket."
-        exit 1
+      echo "$bucket_type Bucket does not exist. Let's create it..."
+
+      
+      aws s3api create-bucket --bucket "$bucket_name" --region "$AWS_REGION"
+      echo "$bucket_type Bucket created."
     fi
 }
 
