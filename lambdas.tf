@@ -8,7 +8,7 @@ resource "aws_security_group" "lambda_sg" {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
-    # TODO: Allow API-GATEWAY
+    # TODO: [LAF] Allow API-GATEWAY
     cidr_blocks = ["0.0.0.0/0"]
   }
 
