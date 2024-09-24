@@ -48,6 +48,12 @@ variable "node_role_arn" {
   sensitive   = true
 }
 
+variable "aws_bucket_name" {
+  description = "Name of the bucket where the lambdas will be stored"
+  type        = string
+  default     = "bucket-food-lambdas"
+}
+
 # VPC configuration
 variable "vpc_name" {
   description = "VPC Name - VPC Created in the infrastructure repo"
