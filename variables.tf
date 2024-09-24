@@ -51,7 +51,7 @@ variable "node_role_arn" {
 variable "aws_bucket_name" {
   description = "Name of the bucket where the lambdas will be stored"
   type        = string
-  default     = "bucket-food-lambdas"
+  default     = "food-cloud-terraform-remote-state"
 }
 
 # VPC configuration
