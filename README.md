@@ -1,4 +1,4 @@
-# Repositório Terraform para infraestrutura em nuvem - ALFAC
+# Infraestrutura da aplicação em nuvem - ALFAC
 
 Este é um repositório Git que utiliza o Terraform para gerenciar infraestrutura na nuvem da aplicação [Fast Food - ALFAC](https://github.com/ALFAC-Org/food). Nele, você encontrará arquivos de configuração do Terraform que definem a infraestrutura como código. No momento, o repositório está focado na Amazon Web Services (AWS), entretanto, o repositório é flexível para adaptação para outros provedores de serviços de nuvem.
 
