@@ -8,28 +8,40 @@ else
     exit 1
 fi
 
+# Função para criar e verificar bucket
+create_and_verify_bucket() {
+    local bucket_name=$1
+    local bucket_type=$2
+    
+    # Deleta o bucket se ele existir
+    if aws s3 ls "s3://$bucket_name" 2>/dev/null; then
+        aws s3 rb "s3://$bucket_name" --force
+        echo "$bucket_type Bucket deleted."
+    else
+        echo "$bucket_type Bucket does not exist."
+    fi
+    
+    # Cria o bucket
+    aws s3api create-bucket --bucket "$bucket_name" --region "$AWS_REGION"
+    echo "$bucket_type Bucket created."
+    
+    # Verifica se o bucket foi criado
+    if aws s3 ls "s3://$bucket_name" 2>/dev/null; then
+        echo "$bucket_type Bucket verified."
+    else
+        echo "[bucket] Erro: Falha ao criar $bucket_type Bucket."
+        exit 1
+    fi
+}
+
 echo "Setting up buckets..."
 
-# Deleta o bucket principal
-if aws s3 ls "s3://$AWS_BUCKET_NAME" 2>/dev/null; then
-    aws s3 rb "s3://$AWS_BUCKET_NAME" --force
-    echo "Major Bucket deleted."
-else
-    echo "Major Bucket does not exist."
-fi
+# Cria e verifica o bucket principal
+create_and_verify_bucket "$AWS_BUCKET_NAME" "backend"
 
-aws s3api create-bucket --bucket "$AWS_BUCKET_NAME" --region "$AWS_REGION"
-echo "Major Bucket created."
+# Cria e verifica o bucket de lambdas
+create_and_verify_bucket "$LAMBDA_BUCKET_NAME" "lambda"
 
-# Deleta o bucket de lambdas
-if aws s3 ls "s3:/$LAMBDA_BUCKET_NAME" 2>/dev/null; then
-    aws s3 rb "s3://$LAMBDA_BUCKET_NAME" --force
-    echo "Lambda Bucket deleted."
-else
-    echo "Lambda Bucket does not exist."
-fi
-
-aws s3api create-bucket --bucket "$LAMBDA_BUCKET_NAME" --region "$AWS_REGION"
-echo "Lambda Bucket created."
+echo "Setting up buckets - DONE."
 
 echo "Setting up buckets - DONE."
