@@ -56,7 +56,7 @@ resource "aws_api_gateway_integration" "auth_integration" {
   http_method             = aws_api_gateway_method.auth_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${module.kubernetes.food_app_service_load_balancer_hostname}/"
+  uri                     = "http://${kubernetes.food_app_service_load_balancer_hostname}/"
 
   depends_on = [
     kubernetes_service.food_app_service,
