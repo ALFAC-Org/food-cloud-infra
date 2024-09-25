@@ -12,6 +12,7 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
   authorizer_type = "REQUEST"
   authorizer_uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
   identity_sources = ["$request.header.Authorization"]
+  authorizer_payload_format_version = "2.0"
 }
 
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
@@ -36,7 +37,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id           = aws_apigatewayv2_api.http_api.id
   integration_type = "HTTP_PROXY"
-  integration_uri  = "http://${data.kubernetes_service.food_app_service_data.status[0].load_balancer[0].ingress[0].hostname}/"
+  integration_uri  = "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_elb.food_elb.id}:listener/app/${data.aws_elb.food_elb.name}/${data.aws_elb.food_elb.listener_arn}"
   integration_method = "ANY"
   connection_type = "VPC_LINK"
   connection_id   = aws_apigatewayv2_vpc_link.vpc_link.id
