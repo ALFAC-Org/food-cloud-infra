@@ -1,3 +1,14 @@
+# Declara o recurso aws_lb para o Load Balancer
+data "aws_lb" "food_lb" {
+  name = "food-load-balancer"
+}
+
+# Declara o recurso aws_lb_listener para obter o ARN do listener
+data "aws_lb_listener" "food_lb_listener" {
+  load_balancer_arn = data.aws_lb.food_lb.arn
+  port              = 8080
+}
+
 # Cria a API Gateway do tipo HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
   name          = "food_http_api"
@@ -37,7 +48,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id           = aws_apigatewayv2_api.http_api.id
   integration_type = "HTTP_PROXY"
-  integration_uri  = "arn:aws:elasticloadbalancing:${var.aws_region}:${data.aws_elb.food_elb.id}:listener/app/${data.aws_elb.food_elb.name}/${data.aws_elb.food_elb.listener_arn}"
+  integration_uri  = data.aws_lb_listener.food_lb_listener.arn
   integration_method = "ANY"
   connection_type = "VPC_LINK"
   connection_id   = aws_apigatewayv2_vpc_link.vpc_link.id
