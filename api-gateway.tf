@@ -74,15 +74,6 @@ resource "aws_api_gateway_integration" "auth_integration" {
   ]
 }
 
-# # Cria o Load Balancer - TODO: apontar para o nosso LB ja criado
-# resource "aws_lb" "my_lb" {
-#   name               = "my-load-balancer"
-#   internal           = false
-#   load_balancer_type = "application"
-#   security_groups    = [aws_security_group.lb_sg.id]
-#   subnets            = var.subnet_ids
-# }
-
 # Cria o grupo de segurança para o API Gateway - Precisamos de um grupo de segurança para o API Gateway?
 resource "aws_security_group" "api_gw_sg" {
   name        = "api-gw-sg"
@@ -103,27 +94,6 @@ resource "aws_security_group" "api_gw_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-# Cria o grupo de segurança para o Load Balancer - TOD0: Ja devemos ter, validar se precisamos
-# resource "aws_security_group" "lb_sg" {
-#   name        = "lb-sg"
-#   description = "Allow Load Balancer access"
-#   vpc_id      = var.vpc_id
-
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
 
 # Define as respostas do método
 resource "aws_api_gateway_method_response" "method_response_200" {
