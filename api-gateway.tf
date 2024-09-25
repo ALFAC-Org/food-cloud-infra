@@ -22,20 +22,15 @@ resource "aws_apigatewayv2_route" "auth_route" {
   authorizer_id = aws_apigatewayv2_authorizer.lambda_authorizer.id
 }
 
-# Define o parâmetro de consulta cpf na rota
-resource "aws_apigatewayv2_route_request_parameter" "cpf_parameter" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_id  = aws_apigatewayv2_route.auth_route.id
-  request_parameter_key = "request.querystring.cpf"
-  required  = true
-}
-
 # Define a integração do API Gateway para chamar o Load Balancer
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id           = aws_apigatewayv2_api.http_api.id
   integration_type = "HTTP_PROXY"
   integration_uri  = "http://${data.kubernetes_service.food_app_service_data.status[0].load_balancer[0].ingress[0].hostname}/"
   integration_method = "ANY"
+  request_parameters = {
+    "integration.request.querystring.cpf" = "method.request.querystring.cpf"
+  }
 }
 
 # Cria o grupo de segurança para o API Gateway
