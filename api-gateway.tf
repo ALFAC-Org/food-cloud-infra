@@ -27,6 +27,13 @@ resource "aws_api_gateway_resource" "auth_resource" {
   path_part   = "auth"
 }
 
+# Cria o recurso do API Gateway para proxy
+resource "aws_api_gateway_resource" "proxy_resource" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_resource.auth_resource.id
+  path_part   = "{proxy+}"
+}
+
 # Cria o autorizer Lambda
 resource "aws_api_gateway_authorizer" "lambda_authorizer" {
   rest_api_id     = aws_api_gateway_rest_api.rest_api.id
@@ -45,8 +52,11 @@ resource "aws_api_gateway_method" "auth_method" {
   authorizer_id = aws_api_gateway_authorizer.lambda_authorizer.id
 
   request_parameters = {
-    "method.request.querystring.cpf" = true // TODO: [LAF] Check if this is correct
+    "method.request.header.cpf" = true
+    "method.request.header.auth" = true
   }
+
+  
 }
 
 # Define a integração do API Gateway para chamar o Load Balancer
@@ -114,3 +124,65 @@ resource "aws_security_group" "api_gw_sg" {
 #     cidr_blocks = ["0.0.0.0/0"]
 #   }
 # }
+
+# Define as respostas do método
+resource "aws_api_gateway_method_response" "method_response_200" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  resource_id = aws_api_gateway_resource.proxy_resource.id
+  http_method = aws_api_gateway_method.proxy_method.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Content-Type" = true
+  }
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
+resource "aws_api_gateway_method_response" "method_response_400" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  resource_id = aws_api_gateway_resource.proxy_resource.id
+  http_method = aws_api_gateway_method.proxy_method.http_method
+  status_code = "400"
+
+  response_parameters = {
+    "method.response.header.Content-Type" = true
+  }
+
+  response_models = {
+    "application/json" = "Error"
+  }
+}
+
+# Define as respostas da integração
+resource "aws_api_gateway_integration_response" "integration_response_200" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  resource_id = aws_api_gateway_resource.proxy_resource.id
+  http_method = aws_api_gateway_method.proxy_method.http_method
+  status_code = aws_api_gateway_method_response.method_response_200.status_code
+
+  response_parameters = {
+    "method.response.header.Content-Type" = "integration.response.header.Content-Type"
+  }
+
+  response_templates = {
+    "application/json" = ""
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response_400" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  resource_id = aws_api_gateway_resource.proxy_resource.id
+  http_method = aws_api_gateway_method.proxy_method.http_method
+  status_code = aws_api_gateway_method_response.method_response_400.status_code
+
+  response_parameters = {
+    "method.response.header.Content-Type" = "integration.response.header.Content-Type"
+  }
+
+  response_templates = {
+    "application/json" = ""
+  }
+}
