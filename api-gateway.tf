@@ -3,7 +3,7 @@ resource "aws_api_gateway_rest_api" "rest_api" {
   name        = "food_api_gateway"
   description = "Food API Gateway"
   endpoint_configuration {
-    types = ["PRIVATE"]
+    types            = ["PRIVATE"]
     vpc_endpoint_ids = [aws_vpc_endpoint.api_gw_vpc_endpoint.id]
   }
 }
@@ -13,10 +13,10 @@ resource "aws_vpc_endpoint" "api_gw_vpc_endpoint" {
   vpc_id            = aws_vpc.food_vpc.id
   service_name      = "com.amazonaws.${var.aws_region}.execute-api"
   vpc_endpoint_type = "Interface"
-  subnet_ids        = [
-      aws_subnet.food_public_subnet_1.id,
-      aws_subnet.food_public_subnet_2.id,
-    ]
+  subnet_ids = [
+    aws_subnet.food_public_subnet_1.id,
+    aws_subnet.food_public_subnet_2.id,
+  ]
   security_group_ids = [aws_security_group.api_gw_sg.id]
 }
 
@@ -29,10 +29,10 @@ resource "aws_api_gateway_resource" "auth_resource" {
 
 # Cria o autorizer Lambda
 resource "aws_api_gateway_authorizer" "lambda_authorizer" {
-  rest_api_id = aws_api_gateway_rest_api.rest_api.id
-  name        = "lambda_authorizer"
-  type        = "TOKEN"
-  authorizer_uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
+  rest_api_id     = aws_api_gateway_rest_api.rest_api.id
+  name            = "lambda_authorizer"
+  type            = "TOKEN"
+  authorizer_uri  = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
   identity_source = "method.request.header.Authorization"
 }
 
@@ -56,17 +56,22 @@ resource "aws_api_gateway_integration" "auth_integration" {
   http_method             = aws_api_gateway_method.auth_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${aws_lb.my_lb.dns_name}/"
+  uri                     = "http://${module.kubernetes.food_app_service_load_balancer_hostname}/"
+
+  depends_on = [
+    kubernetes_service.food_app_service,
+    aws_lambda_function.valida_cpf_usuario
+  ]
 }
 
-# Cria o Load Balancer - TODO: apontar para o nosso LB ja criado
-resource "aws_lb" "my_lb" {
-  name               = "my-load-balancer"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = var.subnet_ids
-}
+# # Cria o Load Balancer - TODO: apontar para o nosso LB ja criado
+# resource "aws_lb" "my_lb" {
+#   name               = "my-load-balancer"
+#   internal           = false
+#   load_balancer_type = "application"
+#   security_groups    = [aws_security_group.lb_sg.id]
+#   subnets            = var.subnet_ids
+# }
 
 # Cria o grupo de segurança para o API Gateway - Precisamos de um grupo de segurança para o API Gateway?
 resource "aws_security_group" "api_gw_sg" {
@@ -90,22 +95,22 @@ resource "aws_security_group" "api_gw_sg" {
 }
 
 # Cria o grupo de segurança para o Load Balancer - TOD0: Ja devemos ter, validar se precisamos
-resource "aws_security_group" "lb_sg" {
-  name        = "lb-sg"
-  description = "Allow Load Balancer access"
-  vpc_id      = var.vpc_id
+# resource "aws_security_group" "lb_sg" {
+#   name        = "lb-sg"
+#   description = "Allow Load Balancer access"
+#   vpc_id      = var.vpc_id
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
