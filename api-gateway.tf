@@ -52,9 +52,6 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   integration_method = "ANY"
   connection_type = "VPC_LINK"
   connection_id   = aws_apigatewayv2_vpc_link.vpc_link.id
-  request_parameters = {
-    "integration.request.querystring.cpf" = "method.request.querystring.cpf"
-  }
 }
 
 # Cria o grupo de segurança para o API Gateway
