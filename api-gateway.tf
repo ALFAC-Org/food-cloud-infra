@@ -1,7 +1,7 @@
-# Declara o recurso aws_lb para o Load Balancer usando o DNS name
+# Declara o recurso aws_lb para o Load Balancer usando o nome
 data "aws_lb" "food_lb" {
-  dns_name = "ae2c9f587f7284a278cdd7059897eb90-210a87acaa33d1a8.elb.us-east-1.amazonaws.com"
-  }
+  name = "ae2c9f587f7284a278cdd7059897eb90"  # Substitua pelo nome real do seu Load Balancer
+}
 
 # Declara o recurso aws_lb_listener para obter o ARN do listener
 data "aws_lb_listener" "food_lb_listener" {
