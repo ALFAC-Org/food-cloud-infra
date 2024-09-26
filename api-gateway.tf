@@ -23,7 +23,8 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
   authorizer_type = "REQUEST"
   authorizer_uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
   identity_sources = ["$request.header.Authorization"]
-  authorizer_payload_format_version = "2.0"
+  authorizer_payload_format_version = "2.0"  # Set response mode to Simple
+  authorizer_result_ttl_in_seconds = 0  # Disable caching
 }
 
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
@@ -45,13 +46,24 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 }
 
 # Define a integração do API Gateway para chamar o Load Balancer
-resource "aws_apigatewayv2_integration" "auth_integration" {
+resource "aws_apigateway_integration" "auth_integration" {
   api_id           = aws_apigatewayv2_api.http_api.id
   integration_type = "HTTP_PROXY"
   integration_uri  = data.aws_lb_listener.food_lb_listener.arn
   integration_method = "ANY"
   connection_type = "VPC_LINK"
   connection_id   = aws_apigatewayv2_vpc_link.vpc_link.id
+
+  response_parameters = {
+    "append:header.auth" = "$context.authorizer.jwt"
+  }
+}
+
+# Define a resposta da integração baseada no código de status 200
+resource "aws_apigateway_integration_response" "auth_integration_response" {
+  api_id          = aws_apigatewayv2_api.http_api.id
+  integration_id  = aws_apigatewayv2_integration.auth_integration.id
+  integration_response_key = "/200/"
 }
 
 # Cria o grupo de segurança para o API Gateway
