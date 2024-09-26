@@ -54,8 +54,6 @@ resource "aws_apigatewayv2_route" "auth_route" {
 resource "aws_apigatewayv2_vpc_link" "vpc_link" {
   name = "food_vpc_link"
   subnet_ids = [
-    aws_subnet.food_public_subnet_1.id,
-    aws_subnet.food_public_subnet_2.id,
     aws_subnet.food_private_subnet_1.id,
     aws_subnet.food_private_subnet_2.id
   ]
