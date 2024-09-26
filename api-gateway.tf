@@ -56,6 +56,8 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
   subnet_ids = [
     aws_subnet.food_public_subnet_1.id,
     aws_subnet.food_public_subnet_2.id,
+    aws_subnet.food_private_subnet_1.id,
+    aws_subnet.food_private_subnet_2.id
   ]
   security_group_ids = [
     aws_security_group.api_gw_sg.id,
@@ -108,7 +110,7 @@ resource "aws_security_group" "api_gw_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
