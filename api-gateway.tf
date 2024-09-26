@@ -34,6 +34,7 @@ resource "aws_apigatewayv2_route" "auth_route" {
   route_key          = "ANY /pedidos/{proxy+}"
   authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
+  target    = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
 }
 
 # Cria o VPC Link para a integração com o Load Balancer
@@ -84,11 +85,3 @@ resource "aws_security_group" "api_gw_sg" {
   }
 }
 
-resource "aws_apigatewayv2_route" "alb_connection" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /pedidos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
-
-  authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
-  authorization_type = "CUSTOM"
-}
