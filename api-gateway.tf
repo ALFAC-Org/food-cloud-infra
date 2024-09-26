@@ -45,7 +45,11 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
     aws_subnet.food_public_subnet_1.id,
     aws_subnet.food_public_subnet_2.id,
   ]
-  security_group_ids = [aws_security_group.api_gw_sg.id]
+  security_group_ids = [
+    aws_security_group.api_gw_sg.id,
+    "sg-0f2642994d6d22612",
+    "sg-07402da7f22b55d6a"
+    ]
 }
 
 # Define a integração do API Gateway para chamar o Load Balancer
