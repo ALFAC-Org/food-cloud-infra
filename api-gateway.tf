@@ -54,17 +54,19 @@ resource "aws_apigateway_integration" "auth_integration" {
   connection_type = "VPC_LINK"
   connection_id   = aws_apigatewayv2_vpc_link.vpc_link.id
 
-  response_parameters = {
-    "append:header.auth" = "$context.authorizer.jwt"
-  }
+  response_parameters {
+    status_code = 200
+    mappings = {
+      "append:header.auth" = "$context.authorizer.jwt"
+    }
 }
 
-# Define a resposta da integração baseada no código de status 200
-resource "aws_apigateway_integration_response" "auth_integration_response" {
-  api_id          = aws_apigatewayv2_api.http_api.id
-  integration_id  = aws_apigatewayv2_integration.auth_integration.id
-  integration_response_key = "/200/"
-}
+# # Define a resposta da integração baseada no código de status 200
+# resource "aws_apigatewayv2_integration_response" "auth_integration_response" {
+#   api_id          = aws_apigatewayv2_api.http_api.id
+#   integration_id  = aws_apigatewayv2_integration.auth_integration.id
+#   integration_response_key = "/200/"
+# }
 
 # Cria o grupo de segurança para o API Gateway
 resource "aws_security_group" "api_gw_sg" {
