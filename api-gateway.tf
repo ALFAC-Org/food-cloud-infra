@@ -1,12 +1,12 @@
-# Declara o recurso aws_lb para o Load Balancer
+# Declara o recurso aws_lb para o Load Balancer usando o DNS name
 data "aws_lb" "food_lb" {
-  name = "food-load-balancer"
-}
+  dns_name = data.kubernetes_service.food_app_service_data.status[0].load_balancer[0].ingress[0].hostname
+  }
 
 # Declara o recurso aws_lb_listener para obter o ARN do listener
 data "aws_lb_listener" "food_lb_listener" {
   load_balancer_arn = data.aws_lb.food_lb.arn
-  port              = 8080
+  port              = 8080  # Ajuste conforme necessário
 }
 
 # Cria a API Gateway do tipo HTTP API
