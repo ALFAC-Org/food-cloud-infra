@@ -85,7 +85,7 @@ resource "aws_security_group" "api_gw_sg" {
 }
 
 resource "aws_apigatewayv2_route" "alb_connection" {
-  api_id    = data.aws_apigatewayv2_api.gateway.id
+  api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "ANY /pedidos/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
 
