@@ -9,7 +9,7 @@ resource "aws_security_group" "lambda_sg" {
     to_port   = 0
     protocol  = "-1"
     security_groups = [
-      aws_security_group.api_gw_sg
+      aws_security_group.api_gw_sg.id
     ]
   }
 
