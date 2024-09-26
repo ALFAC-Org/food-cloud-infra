@@ -118,6 +118,9 @@ resource "kubernetes_service" "food_app_service" {
     name      = "service-food-app"
     namespace = var.kubernetes_namespace
     annotations = {
+      "alb.ingress.kubernetes.io/load-balancer-name" : "application-eks-balancer-load",
+      "service.beta.kubernetes.io/aws-load-balancer-name" : "application-eks-balancer-aws",
+      "service.beta.kubernetes.io/do-loadbalancer-name" = "application-eks-balancer-do",
       "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
       "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
       "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"

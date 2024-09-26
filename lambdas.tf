@@ -8,8 +8,9 @@ resource "aws_security_group" "lambda_sg" {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
-    # TODO: Allow API-GATEWAY
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [
+      aws_security_group.api_gw_sg
+    ]
   }
 
   egress {
@@ -55,6 +56,7 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
   # Adicionando depends_on para garantir a ordem correta da dependência entre security groups
   depends_on = [
     aws_security_group.eks_security_group,
-    aws_s3_object.valida_cpf_usuario
+    aws_s3_object.valida_cpf_usuario,
+    aws_security_group.api_gw_sg
   ]
 }
