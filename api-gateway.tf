@@ -1,6 +1,6 @@
 # Declara o recurso aws_lb para o Load Balancer usando o DNS name
 data "aws_lb" "food_lb" {
-  dns_name = data.kubernetes_service.food_app_service_data.status[0].load_balancer[0].ingress[0].hostname
+  dns_name = "ae2c9f587f7284a278cdd7059897eb90-210a87acaa33d1a8.elb.us-east-1.amazonaws.com"
   }
 
 # Declara o recurso aws_lb_listener para obter o ARN do listener
