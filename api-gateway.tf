@@ -31,7 +31,8 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
 resource "aws_apigatewayv2_route" "auth_route" {
   api_id             = aws_apigatewayv2_api.http_api.id
-  route_key          = "ANY /pedidos/{proxy+}"
+  # route_key          = "ANY /api/v1/pedidos/{proxy+}"
+  route_key          = "ANY /{proxy+}"
   authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
   target    = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
