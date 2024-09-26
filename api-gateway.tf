@@ -14,6 +14,10 @@ resource "aws_apigatewayv2_api" "http_api" {
   name          = "food_http_api"
   protocol_type = "HTTP"
   description   = "Food HTTP API"
+
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 # Cria o autorizer Lambda para a HTTP API
@@ -26,6 +30,10 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
   authorizer_payload_format_version = "2.0" # Set response mode to Simple
   authorizer_result_ttl_in_seconds  = 0     # Disable caching
   enable_simple_responses           = true
+
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
@@ -36,6 +44,10 @@ resource "aws_apigatewayv2_route" "auth_route" {
   authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
   target    = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
+
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 # Cria o VPC Link para a integração com o Load Balancer
@@ -50,6 +62,10 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
     "sg-0f2642994d6d22612",
     "sg-07402da7f22b55d6a"
     ]
+  
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 # Define a integração do API Gateway para chamar o Load Balancer
@@ -66,6 +82,10 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
     mappings = {
       "append:header.auth" = "$context.authorizer.jwt"
     }
+  }
+
+  lifecycle {
+    prevent_destroy = false
   }
 }
 
