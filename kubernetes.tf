@@ -113,30 +113,30 @@ resource "kubernetes_deployment" "deployment_food_app" {
   depends_on = [aws_eks_node_group.food_node_group]
 }
 
-resource "kubernetes_service" "food_app_service" {
-  metadata {
-    name      = "service-food-app"
-    namespace = var.kubernetes_namespace
-    annotations = {
-      "alb.ingress.kubernetes.io/load-balancer-name" : "application-eks-balancer-load",
-      "service.beta.kubernetes.io/aws-load-balancer-name" : "application-eks-balancer-aws",
-      "service.beta.kubernetes.io/do-loadbalancer-name" = "application-eks-balancer-do",
-      "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
-      "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
-      "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
-    }
-  }
-  spec {
-    selector = {
-      app = "deployment-food-app"
-    }
-    port {
-      port        = var.app_port
-      target_port = var.app_port
-    }
-    type = "LoadBalancer"
-  }
-}
+# resource "kubernetes_service" "food_app_service" {
+#   metadata {
+#     name      = "service-food-app"
+#     namespace = var.kubernetes_namespace
+#     annotations = {
+#       "alb.ingress.kubernetes.io/load-balancer-name" : "application-eks-balancer-load",
+#       "service.beta.kubernetes.io/aws-load-balancer-name" : "application-eks-balancer-aws",
+#       "service.beta.kubernetes.io/do-loadbalancer-name" = "application-eks-balancer-do",
+#       "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
+#       "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
+#       "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
+#     }
+#   }
+#   spec {
+#     selector = {
+#       app = "deployment-food-app"
+#     }
+#     port {
+#       port        = var.app_port
+#       target_port = var.app_port
+#     }
+#     type = "LoadBalancer"
+#   }
+# }
 
 # Failed to create Ingress 'default/ingress-food-app' because: the server could not find the requested resource (post ingresses.extensions)
 # So let's use kubernetes_ingress_v1 instead of kubernetes_ingress
