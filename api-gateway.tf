@@ -94,7 +94,7 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   response_parameters {
     status_code = 200
     mappings = {
-      "append:header.Auth" = "$context.authorizer.jwt"
+      "overwrite:header.Auth" = "$context.authorizer.jwt"
     }
   }
 
