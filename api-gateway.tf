@@ -1,13 +1,13 @@
 # Declara o recurso aws_lb para o Load Balancer usando o nome
-# data "aws_lb" "food_lb" {
-#   name = "ae2c9f587f7284a278cdd7059897eb90" # Substitua pelo nome real do seu Load Balancer
-# }
+data "aws_lb" "food_lb" {
+  name = "nlb-food-app" # Substitua pelo nome real do seu Load Balancer
+}
 
-# # Declara o recurso aws_lb_listener para obter o ARN do listener
-# data "aws_lb_listener" "food_lb_listener" {
-#   load_balancer_arn = data.aws_lb.food_lb.arn
-#   port              = 8080
-# }
+# Declara o recurso aws_lb_listener para obter o ARN do listener
+data "aws_lb_listener" "food_lb_listener" {
+  load_balancer_arn = data.aws_lb.food_lb.arn
+  port              = 8080
+}
 
 # Cria a API Gateway do tipo HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
@@ -47,17 +47,17 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
 }
 
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
-# resource "aws_apigatewayv2_route" "auth_route" {
-#   api_id = aws_apigatewayv2_api.http_api.id
-#   route_key          = "ANY /{proxy+}"
-#   authorization_type = "CUSTOM"
-#   authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
-#   target             = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
+resource "aws_apigatewayv2_route" "auth_route" {
+  api_id = aws_apigatewayv2_api.http_api.id
+  route_key          = "ANY /{proxy+}"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
+  target             = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
 
-#   lifecycle {
-#     prevent_destroy = false
-#   }
-# }
+  lifecycle {
+    prevent_destroy = false
+  }
+}
 
 # Cria o VPC Link para a integração com o Load Balancer
 resource "aws_apigatewayv2_vpc_link" "vpc_link" {
@@ -78,26 +78,26 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
   }
 }
 
-# # Define a integração do API Gateway para chamar o Load Balancer
-# resource "aws_apigatewayv2_integration" "auth_integration" {
-#   api_id             = aws_apigatewayv2_api.http_api.id
-#   integration_type   = "HTTP_PROXY"
-#   integration_uri    = data.aws_lb_listener.food_lb_listener.arn
-#   integration_method = "ANY"
-#   connection_type    = "VPC_LINK"
-#   connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
+# Define a integração do API Gateway para chamar o Load Balancer
+resource "aws_apigatewayv2_integration" "auth_integration" {
+  api_id             = aws_apigatewayv2_api.http_api.id
+  integration_type   = "HTTP_PROXY"
+  integration_uri    = data.aws_lb_listener.food_lb_listener.arn
+  integration_method = "ANY"
+  connection_type    = "VPC_LINK"
+  connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
 
-#   response_parameters {
-#     status_code = 200
-#     mappings = {
-#       "append:header.Auth" = "$context.authorizer.jwt"
-#     }
-#   }
+  response_parameters {
+    status_code = 200
+    mappings = {
+      "append:header.Auth" = "$context.authorizer.jwt"
+    }
+  }
 
-#   lifecycle {
-#     prevent_destroy = false
-#   }
-# }
+  lifecycle {
+    prevent_destroy = false
+  }
+}
 
 # Cria o grupo de segurança para o API Gateway
 resource "aws_security_group" "api_gw_sg" {
