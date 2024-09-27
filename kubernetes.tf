@@ -164,7 +164,7 @@ resource "kubernetes_service" "food_app_service" {
 # Obter IPs ou IDs das instâncias do Kubernetes (suposição de EC2)
 data "aws_instance" "kubernetes_nodes" {
   filter {
-    name   = "tag:KubernetesCluster"
+    name   = "tag:eks:cluster-name"
     values = [var.cluster_name]
   }
 }
@@ -196,7 +196,7 @@ resource "aws_lb_target_group" "food_app_target_group" {
 
 # Anexar as instâncias do Kubernetes ao Target Group
 resource "aws_lb_target_group_attachment" "food_app_attachment" {
-  for_each         = data.aws_instance.kubernetes_nodes.id
+  for_each         = data.aws_instance.kubernetes_nodes.ids
   target_group_arn = aws_lb_target_group.food_app_target_group.arn
   target_id        = each.value
   port             = 30080 # Porta NodePort
