@@ -1,6 +1,5 @@
 # Declara o recurso aws_lb para o Load Balancer usando o nome
 data "aws_lb" "food_lb" {
-  #name = "a0afc84dbb3b5404fa366a4bf89e3a36" # Substitua pelo nome real do seu Load Balancer
   tags = {
     "kubernetes.io/service-name" = "default/service-food-app"
   }
