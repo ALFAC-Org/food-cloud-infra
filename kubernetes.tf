@@ -113,106 +113,106 @@ resource "kubernetes_deployment" "deployment_food_app" {
   depends_on = [aws_eks_node_group.food_node_group]
 }
 
-# resource "kubernetes_service" "food_app_service" {
-#   metadata {
-#     name      = "service-food-app"
-#     namespace = var.kubernetes_namespace
-#     annotations = {
-#       "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
-#       "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
-#       "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
-#     }
-#   }
-#   spec {
-#     selector = {
-#       app = "deployment-food-app"
-#     }
-#     port {
-#       port        = var.app_port
-#       target_port = var.app_port
-#     }
-#     type = "LoadBalancer"
-#   }
-# }
-
 resource "kubernetes_service" "food_app_service" {
   metadata {
     name      = "service-food-app"
     namespace = var.kubernetes_namespace
     annotations = {
-      "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb"
-      "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal"
+      "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
+      "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
       "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
     }
   }
-
   spec {
     selector = {
       app = "deployment-food-app"
     }
-
     port {
-      port        = var.app_port # Porta exposta externamente
-      target_port = var.app_port # Porta onde o app está rodando no pod
-      node_port   = 30080        # NodePort (usado pelo Load Balancer)
+      port        = var.app_port
+      target_port = var.app_port
     }
-
-    type = "NodePort"
+    type = "LoadBalancer"
   }
 }
 
-# Obter IPs ou IDs das instâncias do Kubernetes (suposição de EC2)
-data "aws_instance" "kubernetes_nodes" {
-  filter {
-    name   = "tag:eks:cluster-name"
-    values = [var.cluster_name]
-  }
-}
+# resource "kubernetes_service" "food_app_service" {
+#   metadata {
+#     name      = "service-food-app"
+#     namespace = var.kubernetes_namespace
+#     annotations = {
+#       "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb"
+#       "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal"
+#       "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
+#     }
+#   }
 
-# Criar o NLB
-resource "aws_lb" "nlb_food_app" {
-  name               = "nlb-food-app"
-  internal           = true
-  load_balancer_type = "network"
-  subnets = [
-    aws_subnet.food_public_subnet_1.id,
-    aws_subnet.food_public_subnet_2.id
-  ]
-  enable_cross_zone_load_balancing = true
-}
+#   spec {
+#     selector = {
+#       app = "deployment-food-app"
+#     }
 
-# Criar o Target Group para o NLB
-resource "aws_lb_target_group" "food_app_target_group" {
-  name     = "tg-food-app"
-  port     = 30080 # Porta NodePort exposta nos nós
-  protocol = "TCP"
-  vpc_id   = aws_vpc.food_vpc.id
+#     port {
+#       port        = var.app_port # Porta exposta externamente
+#       target_port = var.app_port # Porta onde o app está rodando no pod
+#       node_port   = 30080        # NodePort (usado pelo Load Balancer)
+#     }
 
-  health_check {
-    protocol = "TCP"
-    port     = "traffic-port"
-  }
-}
+#     type = "NodePort"
+#   }
+# }
 
-# Anexar as instâncias do Kubernetes ao Target Group
-resource "aws_lb_target_group_attachment" "food_app_attachment" {
-  for_each         = data.aws_instance.kubernetes_nodes.id
-  target_group_arn = aws_lb_target_group.food_app_target_group.arn
-  target_id        = each.value
-  port             = 30080 # Porta NodePort
-}
+# # Obter IPs ou IDs das instâncias do Kubernetes (suposição de EC2)
+# data "aws_instance" "kubernetes_nodes" {
+#   filter {
+#     name   = "tag:eks:cluster-name"
+#     values = [var.cluster_name]
+#   }
+# }
 
-# Criar um listener para o NLB
-resource "aws_lb_listener" "nlb_listener" {
-  load_balancer_arn = aws_lb.nlb_food_app.arn
-  port              = 8080 # Porta onde o tráfego externo será recebido
-  protocol          = "TCP"
+# # Criar o NLB
+# resource "aws_lb" "nlb_food_app" {
+#   name               = "nlb-food-app"
+#   internal           = true
+#   load_balancer_type = "network"
+#   subnets = [
+#     aws_subnet.food_public_subnet_1.id,
+#     aws_subnet.food_public_subnet_2.id
+#   ]
+#   enable_cross_zone_load_balancing = true
+# }
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.food_app_target_group.arn
-  }
-}
+# # Criar o Target Group para o NLB
+# resource "aws_lb_target_group" "food_app_target_group" {
+#   name     = "tg-food-app"
+#   port     = 30080 # Porta NodePort exposta nos nós
+#   protocol = "TCP"
+#   vpc_id   = aws_vpc.food_vpc.id
+
+#   health_check {
+#     protocol = "TCP"
+#     port     = "traffic-port"
+#   }
+# }
+
+# # Anexar as instâncias do Kubernetes ao Target Group
+# resource "aws_lb_target_group_attachment" "food_app_attachment" {
+#   for_each         = data.aws_instance.kubernetes_nodes.id
+#   target_group_arn = aws_lb_target_group.food_app_target_group.arn
+#   target_id        = each.value
+#   port             = 30080 # Porta NodePort
+# }
+
+# # Criar um listener para o NLB
+# resource "aws_lb_listener" "nlb_listener" {
+#   load_balancer_arn = aws_lb.nlb_food_app.arn
+#   port              = 8080 # Porta onde o tráfego externo será recebido
+#   protocol          = "TCP"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.food_app_target_group.arn
+#   }
+# }
 
 # Failed to create Ingress 'default/ingress-food-app' because: the server could not find the requested resource (post ingresses.extensions)
 # So let's use kubernetes_ingress_v1 instead of kubernetes_ingress

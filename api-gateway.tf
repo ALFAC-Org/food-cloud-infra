@@ -1,13 +1,13 @@
-# Declara o recurso aws_lb para o Load Balancer usando o nome
-data "aws_lb" "food_lb" {
-  name = "nlb-food-app" # Substitua pelo nome real do seu Load Balancer
-}
+# # Declara o recurso aws_lb para o Load Balancer usando o nome
+# data "aws_lb" "food_lb" {
+#   name = "nlb-food-app" # Substitua pelo nome real do seu Load Balancer
+# }
 
-# Declara o recurso aws_lb_listener para obter o ARN do listener
-data "aws_lb_listener" "food_lb_listener" {
-  load_balancer_arn = data.aws_lb.food_lb.arn
-  port              = 8080
-}
+# # Declara o recurso aws_lb_listener para obter o ARN do listener
+# data "aws_lb_listener" "food_lb_listener" {
+#   load_balancer_arn = data.aws_lb.food_lb.arn
+#   port              = 8080
+# }
 
 # Cria a API Gateway do tipo HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
@@ -69,9 +69,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
   security_group_ids = [
     aws_security_group.api_gw_sg.id,
     aws_security_group.eks_security_group.id,
-    # aws.security_group.food_cluster_sg.id
-    # "sg-07402da7f22b55d6a" // TODO: Validar se é necessário - Security Group do food-cluster
-  ]
+]
 
   lifecycle {
     prevent_destroy = false
@@ -82,7 +80,8 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id             = aws_apigatewayv2_api.http_api.id
   integration_type   = "HTTP_PROXY"
-  integration_uri    = data.aws_lb_listener.food_lb_listener.arn
+  #integration_uri    = data.aws_lb_listener.food_lb_listener.arn
+  integration_uri    = "arn:aws:elasticloadbalancing:us-east-1:819532756232:loadbalancer/net/a0afc84dbb3b5404fa366a4bf89e3a36/c6574c0f69d4dfd6"
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
