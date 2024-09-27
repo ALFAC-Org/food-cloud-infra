@@ -196,7 +196,7 @@ resource "aws_lb_target_group" "food_app_target_group" {
 
 # Anexar as instâncias do Kubernetes ao Target Group
 resource "aws_lb_target_group_attachment" "food_app_attachment" {
-  for_each         = data.aws_instance.kubernetes_nodes.ids
+  for_each         = data.aws_instance.kubernetes_nodes.id
   target_group_arn = aws_lb_target_group.food_app_target_group.arn
   target_id        = each.value
   port             = 30080 # Porta NodePort
