@@ -91,7 +91,8 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 # Define a integração do API Gateway para chamar o Load Balancer
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id             = aws_apigatewayv2_api.http_api.id
-  integration_type   = "HTTP_PROXY"
+  # integration_type   = "HTTP_PROXY"
+  integration_type = "AWS_PROXY"
   integration_uri    = data.aws_lb_listener.food_lb_listener.arn
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
