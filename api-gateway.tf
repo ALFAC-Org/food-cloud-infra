@@ -46,7 +46,7 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
   name                              = "lambda_authorizer"
   authorizer_type                   = "REQUEST"
   authorizer_uri                    = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
-  identity_sources                  = ["$request.header.Auth"]
+  identity_sources                  = ["$request.header.auth"]
   authorizer_payload_format_version = "2.0"
   authorizer_result_ttl_in_seconds  = 0
   enable_simple_responses           = true
@@ -98,7 +98,7 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   response_parameters {
     status_code = 200
     mappings = {
-      "overwrite:header.Auth" = "$context.authorizer.jwt"
+      "overwrite:header.auth" = "$context.authorizer.jwt"
     }
   }
 
