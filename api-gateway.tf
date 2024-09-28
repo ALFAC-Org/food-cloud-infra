@@ -1,9 +1,8 @@
 # Declara o recurso aws_lb para o Load Balancer usando o nome
 data "aws_lb" "food_lb" {
-  # tags = {
-  #   "kubernetes.io/service-name" = "default/service-food-app"
-  # }
-  name = "a0709568269674be380159b9a011d0ed"
+  tags = {
+    "kubernetes.io/service-name" = "default/service-food-app"
+  }
 
   depends_on = [kubernetes_service.food_app_service]
 }
@@ -92,7 +91,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 # Define a integração do API Gateway para chamar a função Lambda
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id           = aws_apigatewayv2_api.http_api.id
-  integration_type = "HTTP_PROXY"
+  integration_type = "AWS_PROXY"
   integration_uri  = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
   payload_format_version = "2.0"
 
