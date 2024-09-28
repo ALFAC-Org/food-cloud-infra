@@ -124,13 +124,13 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 }
 
 # Permissão para a API Gateway invocar a função Lambda
-# resource "aws_lambda_permission" "apigw_lambda" {
-#   statement_id  = "AllowAPIGatewayInvoke"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.valida_cpf_usuario.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*/{proxy+}"
-# }
+resource "aws_lambda_permission" "apigw_lambda" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.valida_cpf_usuario.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*"
+}
 
 # Cria o grupo de segurança para o API Gateway
 resource "aws_security_group" "api_gw_sg" {
