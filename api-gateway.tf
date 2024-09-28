@@ -90,9 +90,9 @@ resource "aws_apigatewayv2_vpc_link" "vpc_link" {
 
 # Define a integração do API Gateway para chamar a função Lambda
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = aws_apigatewayv2_api.http_api.id
-  integration_type = "AWS_PROXY"
-  integration_uri  = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.valida_cpf_usuario.arn}/invocations"
   payload_format_version = "2.0"
 
   lifecycle {
@@ -129,8 +129,9 @@ resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.valida_cpf_usuario.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/routes/*"
+  # source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/routes/*"
   # source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/$default/*/*/*"
+  source_arn = "${aws_apigatewayv2_api.http_api.execution_arn}/authorizers/${aws_apigatewayv2_authorizer.lambda_authorizer.id}"
 }
 
 # Cria o grupo de segurança para o API Gateway
