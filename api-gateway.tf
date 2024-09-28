@@ -3,12 +3,16 @@ data "aws_lb" "food_lb" {
   tags = {
     "kubernetes.io/service-name" = "default/service-food-app"
   }
+
+  depends_on = [ kubernetes_service.food_app_service ]
 }
 
 # Declara o recurso aws_lb_listener para obter o ARN do listener
 data "aws_lb_listener" "food_lb_listener" {
   load_balancer_arn = data.aws_lb.food_lb.arn
   port              = 8080
+
+  depends_on = [ kubernetes_service.food_app_service ]
 }
 
 # output "teste_Fraga" {
