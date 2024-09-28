@@ -11,9 +11,9 @@ data "aws_lb_listener" "food_lb_listener" {
   port              = 8080
 }
 
-output "teste_Fraga" {
-  value = data.aws_lb_listener.food_lb_listener.arn
-}
+# output "teste_Fraga" {
+#   value = data.aws_lb_listener.food_lb_listener.arn
+# }
 
 # Cria a API Gateway do tipo HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
@@ -101,6 +101,8 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   lifecycle {
     prevent_destroy = false
   }
+
+  depends_on = [ kubernetes_service.food_app_service ]
 }
 
 # Cria o grupo de segurança para o API Gateway
