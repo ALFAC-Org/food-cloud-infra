@@ -15,10 +15,6 @@ data "aws_lb_listener" "food_lb_listener" {
   depends_on = [kubernetes_service.food_app_service]
 }
 
-# output "teste_Fraga" {
-#   value = data.aws_lb_listener.food_lb_listener.arn
-# }
-
 # Cria a API Gateway do tipo HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
   name          = "food_http_api"
@@ -59,7 +55,7 @@ resource "aws_apigatewayv2_authorizer" "lambda_authorizer" {
 # Define a rota do API Gateway para aceitar todas as requisições que começam com /pedidos e usar o autorizer Lambda
 resource "aws_apigatewayv2_route" "auth_route" {
   api_id             = aws_apigatewayv2_api.http_api.id
-  route_key          = "ANY /{proxy+}"
+  route_key          = "ANY /api/v1/{proxy+}"
   authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.lambda_authorizer.id
   target             = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
@@ -109,11 +105,8 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
 
-  response_parameters {
-    status_code = 200
-    mappings = {
-      "overwrite:header.auth" = "$context.authorizer.jwt"
-    }
+  request_parameters = {
+    "overwrite:header.auth" = "$context.authorizer.jwt"
   }
 
   lifecycle {
@@ -129,8 +122,6 @@ resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.valida_cpf_usuario.function_name
   principal     = "apigateway.amazonaws.com"
-  # source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/routes/*"
-  # source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/$default/*/*/*"
   source_arn = "${aws_apigatewayv2_api.http_api.execution_arn}/authorizers/${aws_apigatewayv2_authorizer.lambda_authorizer.id}"
 }
 
