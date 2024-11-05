@@ -44,14 +44,24 @@ resource "aws_lambda_function" "valida_cpf_usuario" {
     ]
   }
 
-  # environment {
-  #   variables = {
-  #     DB_HOST     = aws_db_instance.food_database.address
-  #     DB_USER     = var.db_username
-  #     DB_PASSWORD = var.db_password
-  #     DB_NAME     = "fooddb"
-  #   }
-  # }
+  # Todas essas variáveis serão sobreescritas pelo repositório do food-serveless
+  # Por isso, aqui só criamos um placeholder para evitar que o Terraform faça alterações no futuro
+  environment {
+    variables = {
+      DB_HOST = "THIS_VALUE_WILL_BE_UPDATED_BY_FOOD_SERVELESS_REPOSITORY"
+      DB_USERNAME = "THIS_VALUE_WILL_BE_UPDATED_BY_FOOD_SERVELESS_REPOSITORY"
+      DB_PASSWORD = "THIS_VALUE_WILL_BE_UPDATED_BY_FOOD_SERVELESS_REPOSITORY"
+      DB_NAME = "THIS_VALUE_WILL_BE_UPDATED_BY_FOOD_SERVELESS_REPOSITORY"
+      JWT_KEY_TOKEN = "THIS_VALUE_WILL_BE_UPDATED_BY_FOOD_SERVELESS_REPOSITORY"
+    }
+  }
+
+  # E aqui é onde garantimos que o Terraform não faça alterações nas variáveis de ambiente
+  lifecycle {
+    ignore_changes = [
+      environment[0].variables
+    ]
+  }
 
   # Adicionando depends_on para garantir a ordem correta da dependência entre security groups
   depends_on = [
