@@ -153,3 +153,10 @@ variable "db_host" {
   type        = string
   default     = ""
 }
+
+# FOOD CLIENTE Variables
+variable "food_cliente_app_port" { # TODO laf - Do we need a different port for each app?
+  description = "The port where the application will be listening"
+  type        = string
+  default     = "8090"
+}
