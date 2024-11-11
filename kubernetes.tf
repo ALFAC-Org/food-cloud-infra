@@ -6,20 +6,20 @@ resource "kubernetes_secret" "secret_food" {
   type = "Opaque"
 
   data = {
-    APPLICATION_VERSION               = var.image_version
-    APPLICATION_DATABASE_VERSION      = "latest"
-    APPLICATION_PORT                  = var.app_port
-    SPRING_DATASOURCE_USERNAME        = var.db_username
-    SPRING_DATASOURCE_PASSWORD        = var.db_password
-    ENABLE_FLYWAY                     = var.enable_flyway
-    FOOD_CLIENTE_VERSION              = var.food_cliente_image_version
-    FOOD_CLIENTE_PORT                 = var.food_cliente_app_port
-    FODD_CLIENTE_DATASOURCE_USERNAME  = var.food_cliente_db_username
-    FOOD_CLIENTE_DATASOURCE_PASSWORD  = var.food_cliente_db_password
-    FOOD_PRODUTO_VERSION              = var.food_produto_image_version
-    FOOD_PRODUTO_PORT                 = var.food_produto_app_port
-    FOOD_PRODUTO_DATASOURCE_USERNAME  = var.food_produto_db_username # TODO: Aqui vai ser o NOSql
-    FOOD_PRODUTO_DATASOURCE_PASSWORD  = var.food_produto_db_password
+    APPLICATION_VERSION              = var.image_version
+    APPLICATION_DATABASE_VERSION     = "latest"
+    APPLICATION_PORT                 = var.app_port
+    SPRING_DATASOURCE_USERNAME       = var.db_username
+    SPRING_DATASOURCE_PASSWORD       = var.db_password
+    ENABLE_FLYWAY                    = var.enable_flyway
+    FOOD_CLIENTE_VERSION             = var.food_cliente_image_version
+    FOOD_CLIENTE_PORT                = var.food_cliente_app_port
+    FODD_CLIENTE_DATASOURCE_USERNAME = var.food_cliente_db_username
+    FOOD_CLIENTE_DATASOURCE_PASSWORD = var.food_cliente_db_password
+    FOOD_PRODUTO_VERSION             = var.food_produto_image_version
+    FOOD_PRODUTO_PORT                = var.food_produto_app_port
+    FOOD_PRODUTO_DATASOURCE_USERNAME = var.food_produto_db_username # TODO: Aqui vai ser o NOSql
+    FOOD_PRODUTO_DATASOURCE_PASSWORD = var.food_produto_db_password
   }
 
   lifecycle {
