@@ -16,10 +16,10 @@ resource "kubernetes_secret" "secret_food" {
     FOOD_CLIENTE_PORT                = var.food_cliente_app_port
     FODD_CLIENTE_DATASOURCE_USERNAME = var.food_cliente_db_username
     FOOD_CLIENTE_DATASOURCE_PASSWORD = var.food_cliente_db_password
-    FOOD_PRODUTO_VERSION             = var.food_produto_image_version
-    FOOD_PRODUTO_PORT                = var.food_produto_app_port
-    FOOD_PRODUTO_DATASOURCE_USERNAME = var.food_produto_db_username # TODO: Aqui vai ser o NOSql
-    FOOD_PRODUTO_DATASOURCE_PASSWORD = var.food_produto_db_password
+    # FOOD_PRODUTO_VERSION             = var.food_produto_image_version
+    # FOOD_PRODUTO_PORT                = var.food_produto_app_port
+    # FOOD_PRODUTO_DATASOURCE_USERNAME = var.food_produto_db_username # TODO: Aqui vai ser o NOSql
+    # FOOD_PRODUTO_DATASOURCE_PASSWORD = var.food_produto_db_password
   }
 
   lifecycle {
