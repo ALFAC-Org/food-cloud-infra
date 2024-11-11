@@ -160,3 +160,57 @@ variable "food_cliente_app_port" { # TODO laf - Do we need a different port for 
   type        = string
   default     = "8090"
 }
+
+variable "food_cliente_image_version" {
+  description = "The version of the image to deploy"
+  type        = string
+  default     = "latest"
+}
+
+variable "food_cliente_db_username" {
+  description = "Username for the database"
+  type        = string
+}
+
+variable "food_cliente_db_password" {
+  description = "Password for the database"
+  type        = string
+  sensitive   = true
+}
+
+variable "food_cliente_db_host" {
+  description = "Host for the database"
+  type        = string
+  default     = ""
+}
+
+variable "food_cliente_db_name" {
+  description = "Name for the database"
+  type        = string
+  sensitive   = true
+  default     = "foodclientedb"
+}
+
+#FOOD PRODUTO Variables
+variable "food_produto_app_port" { # TODO laf - Do we need a different port for each app?
+  description = "The port where the application will be listening"
+  type        = string
+  default     = "8100"
+}
+
+variable "food_produto_image_version" {
+  description = "The version of the image to deploy"
+  type        = string
+  default     = "latest"
+}
+
+variable "food_produto_db_username" {
+  description = "Username for the database"
+  type        = string
+}
+
+variable "food_produto_db_password" {
+  description = "Password for the database"
+  type        = string
+  sensitive   = true
+}

@@ -12,12 +12,12 @@ resource "kubernetes_secret" "secret_food" {
     SPRING_DATASOURCE_USERNAME        = var.db_username
     SPRING_DATASOURCE_PASSWORD        = var.db_password
     ENABLE_FLYWAY                     = var.enable_flyway
-    FOOD_CLIENTE_VERSION              = var.food_cliente_version
-    FOOD_CLIENTE_PORT                 = var.food_cliente_port
+    FOOD_CLIENTE_VERSION              = var.food_cliente_image_version
+    FOOD_CLIENTE_PORT                 = var.food_cliente_app_port
     FODD_CLIENTE_DATASOURCE_USERNAME  = var.food_cliente_db_username
     FOOD_CLIENTE_DATASOURCE_PASSWORD  = var.food_cliente_db_password
-    FOOD_PRODUTO_VERSION              = var.food_produto_version
-    FOOD_PRODUTO_PORT                 = var.food_produto_port
+    FOOD_PRODUTO_VERSION              = var.food_produto_image_version
+    FOOD_PRODUTO_PORT                 = var.food_produto_app_port
     FOOD_PRODUTO_DATASOURCE_USERNAME  = var.food_produto_db_username # TODO: Aqui vai ser o NOSql
     FOOD_PRODUTO_DATASOURCE_PASSWORD  = var.food_produto_db_password
   }
@@ -289,3 +289,115 @@ data "kubernetes_service" "food_cliente_service_data" {
 }
 
 # FOOD PRODUTO
+resource "kubernetes_deployment" "deployment_food_produto" {
+  metadata {
+    name      = "deployment-food-produto"
+    namespace = var.kubernetes_namespace
+  }
+
+  spec {
+    selector {
+      match_labels = {
+        app = "deployment-food-produto"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "deployment-food-produto"
+        }
+      }
+
+      spec {
+        toleration {
+          key      = "key"
+          operator = "Equal"
+          value    = "value"
+          effect   = "NoSchedule"
+        }
+
+        container {
+          name  = "deployment-food-produto-container"
+          image = "${var.image_username}/${var.image_name}:${var.image_version}" # TODO laf - mudar
+
+          resources {
+            requests = {
+              memory : "512Mi"
+              cpu : "500m"
+            }
+            limits = {
+              memory = "1Gi"
+              cpu    = "1"
+            }
+          }
+
+          env_from {
+            config_map_ref {
+              name = kubernetes_config_map.cm_food.metadata[0].name
+            }
+          }
+
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.secret_food.metadata[0].name
+            }
+          }
+
+          port {
+            container_port = var.food_produto_app_port
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [aws_eks_node_group.food_node_group]
+}
+
+resource "kubernetes_service" "food_produto_service" {
+  metadata {
+    name      = "service-food-produto"
+    namespace = var.kubernetes_namespace
+    annotations = {
+      "service.beta.kubernetes.io/aws-load-balancer-type" : "nlb",
+      "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internal",
+      "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
+    }
+  }
+  spec {
+    selector = {
+      app = "deployment-food-produto"
+    }
+    port {
+      port        = var.food_produto_app_port
+      target_port = var.food_produto_app_port
+    }
+    type = "LoadBalancer"
+  }
+}
+
+resource "kubernetes_ingress_v1" "food_produto_ingress" {
+  metadata {
+    name      = "ingress-food-produto"
+    namespace = var.kubernetes_namespace
+  }
+
+  spec {
+    default_backend {
+      service {
+        name = kubernetes_service.food_produto_service.metadata[0].name
+        port {
+          number = kubernetes_service.food_produto_service.spec[0].port[0].port
+        }
+      }
+    }
+  }
+}
+
+data "kubernetes_service" "food_produto_service_data" {
+  metadata {
+    name      = kubernetes_service.food_produto_service.metadata[0].name
+    namespace = kubernetes_service.food_produto_service.metadata[0].namespace
+  }
+}
