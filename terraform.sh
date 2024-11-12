@@ -47,8 +47,4 @@ terraform $METHOD $PARAMS \
 -var "food_cliente_db_password=$DB_FOOD_CLIENT_PASSWORD" \
 -var "food_cliente_db_name=$DB_FOOD_CLIENT_NAME" \
 -var "food_cliente_db_host=$DB_FOOD_CLIENT_HOST_NAME" \
-# -var "food_produto_db_username=$FOOD_PRODUTO_DB_USERNAME" \
-# -var "food_produto_db_password=$FOOD_PRODUTO_DB_PASSWORD" \
-# -var "food_produto_db_name=$FOOD_PRODUTO_DB_NAME" \
-# -var "food_produto_db_host=$FOOD_PRODUTO_DB_HOST"
-
+-var "food_produto_db_table_name=$FOOD_PRODUTO_DB_TABLE_NAME"

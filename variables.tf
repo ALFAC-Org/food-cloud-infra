@@ -191,26 +191,20 @@ variable "food_cliente_db_name" {
   default     = "foodclientedb"
 }
 
-#FOOD PRODUTO Variables
-# variable "food_produto_app_port" {
-#   description = "The port where the application will be listening"
-#   type        = string
-#   default     = "8100"
-# }
+# FOOD PRODUTO Variables
+variable "food_produto_app_port" {
+  description = "The port where the application will be listening"
+  type        = string
+  default     = "8100"
+}
 
-# variable "food_produto_image_version" {
-#   description = "The version of the image to deploy"
-#   type        = string
-#   default     = "latest"
-# }
+variable "food_produto_image_version" {
+  description = "The version of the image to deploy"
+  type        = string
+  default     = "latest"
+}
 
-# variable "food_produto_db_username" {
-#   description = "Username for the database"
-#   type        = string
-# }
-
-# variable "food_produto_db_password" {
-#   description = "Password for the database"
-#   type        = string
-#   sensitive   = true
-# }
+variable "food_produto_db_table_name" {
+  description = "Username for the database"
+  type        = string
+}
