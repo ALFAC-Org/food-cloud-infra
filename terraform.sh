@@ -25,6 +25,7 @@ terraform $METHOD $PARAMS \
 -var "image_username=$DOCKERHUB_USERNAME" \
 -var "image_version=$IMAGE_VERSION" \
 -var "app_port=$APP_PORT" \
+-var "app_service_port=$FOOD_SERVICE_PORT" \
 -var "enable_flyway=$ENABLE_FLYWAY" \
 -var "aws_region=$AWS_REGION" \
 -var "node_role_arn=$ARN_AWS_LAB_ROLE" \
@@ -45,8 +46,10 @@ terraform $METHOD $PARAMS \
 -var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME" \
 -var "food_cliente_image_name=$FOOD_CLIENTE_IMAGE_NAME" \
 -var "food_cliente_image_version=$FOOD_CLIENTE_IMAGE_VERSION" \
+-var "food_cliente_service_port=$FOOD_CLIENTE_SERVICE_PORT" \
 -var "food_cliente_db_username=$DB_FOOD_CLIENT_USERNAME" \
 -var "food_cliente_db_password=$DB_FOOD_CLIENT_PASSWORD" \
 -var "food_cliente_db_name=$DB_FOOD_CLIENT_NAME" \
 -var "food_cliente_db_host=$DB_FOOD_CLIENT_HOST_NAME" \
--var "food_produto_db_table_name=$FOOD_PRODUTO_DB_TABLE_NAME"
+-var "food_produto_db_table_name=$FOOD_PRODUTO_DB_TABLE_NAME" \
+-var "food_produto_service_port=$FOOD_PRODUTO_SERVICE_PORT"

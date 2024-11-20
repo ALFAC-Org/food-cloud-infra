@@ -29,6 +29,12 @@ variable "app_port" {
   default     = "8080"
 }
 
+variable "app_service_port" {
+  description = "The port where the application will be listening"
+  type        = string
+  default     = "30001"
+}
+
 variable "enable_flyway" {
   description = "Enable Flyway to run the migrations"
   type        = bool
@@ -161,10 +167,10 @@ variable "food_cliente_image_name" {
   default     = "food-cliente"
 }
 
-variable "food_cliente_app_port" {
+variable "food_cliente_service_port" {
   description = "The port where the application will be listening"
   type        = string
-  default     = "8090"
+  default     = "30002"
 }
 
 variable "food_cliente_image_version" {
@@ -198,10 +204,10 @@ variable "food_cliente_db_name" {
 }
 
 # FOOD PRODUTO Variables
-variable "food_produto_app_port" {
+variable "food_produto_service_port" {
   description = "The port where the application will be listening"
   type        = string
-  default     = "8100"
+  default     = "30003"
 }
 
 variable "food_produto_image_version" {

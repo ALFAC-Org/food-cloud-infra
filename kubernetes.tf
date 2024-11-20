@@ -7,23 +7,24 @@ resource "kubernetes_secret" "secret_food" {
 
   data = {
     # FOOD
-    APPLICATION_VERSION              = var.image_version
-    APPLICATION_DATABASE_VERSION     = "latest"
-    APPLICATION_PORT                 = var.app_port
-    SPRING_DATASOURCE_USERNAME       = var.db_username
-    SPRING_DATASOURCE_PASSWORD       = var.db_password
-    ENABLE_FLYWAY                    = var.enable_flyway
+    APPLICATION_VERSION          = var.image_version
+    APPLICATION_DATABASE_VERSION = "latest"
+    APPLICATION_PORT             = var.app_port
+    SPRING_DATASOURCE_USERNAME   = var.db_username
+    SPRING_DATASOURCE_PASSWORD   = var.db_password
+    ENABLE_FLYWAY                = var.enable_flyway
+    FOOD_SERVICE_PORT            = var.app_service_port
 
     # FOOD CLIENTE
     FOOD_CLIENTE_VERSION             = var.food_cliente_image_version
-    FOOD_CLIENTE_PORT                = var.food_cliente_app_port
+    FOOD_CLIENTE_PORT                = var.food_cliente_service_port
     FOOD_CLIENTE_DATASOURCE_USERNAME = var.food_cliente_db_username
     FOOD_CLIENTE_DATASOURCE_PASSWORD = var.food_cliente_db_password
 
     # FOOD PRODUTO
-    FOOD_PRODUTO_VERSION             = var.food_produto_image_version
-    FOOD_PRODUTO_PORT                = var.food_produto_app_port
-    FOOD_PRODUTO_TABLE_NAME          = var.food_produto_db_table_name 
+    FOOD_PRODUTO_VERSION    = var.food_produto_image_version
+    FOOD_PRODUTO_PORT       = var.food_produto_service_port
+    FOOD_PRODUTO_TABLE_NAME = var.food_produto_db_table_name
   }
 
   lifecycle {
@@ -143,8 +144,12 @@ resource "kubernetes_service" "food_app_service" {
       app = "deployment-food-app"
     }
     port {
-      port        = var.app_port
+      # LoadBalancer -> :8080
+      port = var.app_port
+      # Porta do Container -> :8080
       target_port = var.app_port
+      # Porta do Serviço -> :30001
+      node_port = var.app_service_port
     }
     type = "LoadBalancer"
   }
@@ -234,7 +239,7 @@ resource "kubernetes_deployment" "deployment_food_cliente" {
           }
 
           port {
-            container_port = var.food_cliente_app_port
+            container_port = var.app_port
           }
         }
       }
@@ -259,8 +264,12 @@ resource "kubernetes_service" "food_cliente_service" {
       app = "deployment-food-cliente"
     }
     port {
-      port        = var.food_cliente_app_port
-      target_port = var.food_cliente_app_port
+      # LoadBalancer -> :8080
+      port = var.app_port
+      # Porta do Container -> :8080
+      target_port = var.app_port
+      # Porta do Serviço -> :30002
+      node_port = var.food_cliente_service_port
     }
     type = "LoadBalancer"
   }
@@ -348,7 +357,7 @@ resource "kubernetes_deployment" "deployment_food_produto" {
           }
 
           port {
-            container_port = var.food_produto_app_port
+            container_port = var.app_port
           }
         }
       }
@@ -373,8 +382,12 @@ resource "kubernetes_service" "food_produto_service" {
       app = "deployment-food-produto"
     }
     port {
-      port        = var.food_produto_app_port
-      target_port = var.food_produto_app_port
+      # LoadBalancer -> :8080
+      port = var.app_port
+      # Porta do Container -> :8080
+      target_port = var.app_port
+      # Porta do Serviço -> :30003
+      node_port = var.food_produto_service_port
     }
     type = "LoadBalancer"
   }
