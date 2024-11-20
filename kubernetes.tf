@@ -6,16 +6,21 @@ resource "kubernetes_secret" "secret_food" {
   type = "Opaque"
 
   data = {
+    # FOOD
     APPLICATION_VERSION              = var.image_version
     APPLICATION_DATABASE_VERSION     = "latest"
     APPLICATION_PORT                 = var.app_port
     SPRING_DATASOURCE_USERNAME       = var.db_username
     SPRING_DATASOURCE_PASSWORD       = var.db_password
     ENABLE_FLYWAY                    = var.enable_flyway
+
+    # FOOD CLIENTE
     FOOD_CLIENTE_VERSION             = var.food_cliente_image_version
     FOOD_CLIENTE_PORT                = var.food_cliente_app_port
-    FODD_CLIENTE_DATASOURCE_USERNAME = var.food_cliente_db_username
+    FOOD_CLIENTE_DATASOURCE_USERNAME = var.food_cliente_db_username
     FOOD_CLIENTE_DATASOURCE_PASSWORD = var.food_cliente_db_password
+
+    # FOOD PRODUTO
     FOOD_PRODUTO_VERSION             = var.food_produto_image_version
     FOOD_PRODUTO_PORT                = var.food_produto_app_port
     FOOD_PRODUTO_TABLE_NAME          = var.food_produto_db_table_name 
@@ -203,7 +208,7 @@ resource "kubernetes_deployment" "deployment_food_cliente" {
 
         container {
           name  = "deployment-food-cliente-container"
-          image = "${var.image_username}/${var.image_name}:${var.image_version}" # TODO laf - mudar
+          image = "${var.image_username}/${var.food_cliente_image_name}:${var.food_cliente_image_version}"
 
           resources {
             requests = {

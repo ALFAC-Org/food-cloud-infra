@@ -43,6 +43,8 @@ terraform $METHOD $PARAMS \
 -var "kubernetes_namespace=$CLUSTER_NAMESPACE" \
 -var "cluster_name=$CLUSTER_NAME" \
 -var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME" \
+-var "food_cliente_image_name=$FOOD_CLIENTE_IMAGE_NAME" \
+-var "food_cliente_image_version=$FOOD_CLIENTE_IMAGE_VERSION" \
 -var "food_cliente_db_username=$DB_FOOD_CLIENT_USERNAME" \
 -var "food_cliente_db_password=$DB_FOOD_CLIENT_PASSWORD" \
 -var "food_cliente_db_name=$DB_FOOD_CLIENT_NAME" \

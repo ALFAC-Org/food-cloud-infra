@@ -155,6 +155,12 @@ variable "db_host" {
 }
 
 # FOOD CLIENTE Variables
+variable "food_cliente_image_name" {
+  description = "The name of the image to deploy"
+  type        = string
+  default     = "food-cliente"
+}
+
 variable "food_cliente_app_port" {
   description = "The port where the application will be listening"
   type        = string
