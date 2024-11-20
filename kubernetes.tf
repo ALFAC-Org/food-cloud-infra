@@ -331,7 +331,7 @@ resource "kubernetes_deployment" "deployment_food_produto" {
 
         container {
           name  = "deployment-food-produto-container"
-          image = "${var.image_username}/${var.image_name}:${var.image_version}" # TODO laf - mudar
+          image = "${var.image_username}/${var.food_produto_image_name}:${var.food_produto_image_version}"
 
           resources {
             requests = {
