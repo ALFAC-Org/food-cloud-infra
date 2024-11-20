@@ -29,6 +29,11 @@ resource "kubernetes_secret" "secret_food" {
 
   lifecycle {
     prevent_destroy = false
+    ignore_changes = [
+      "APPLICATION_VERSION",
+      "FOOD_CLIENTE_IMAGE_VERSION",
+      "FOOD_PRODUTO_VERSION" 
+    ]
   }
 }
 
@@ -46,6 +51,10 @@ resource "kubernetes_config_map" "cm_food" {
 
   lifecycle {
     prevent_destroy = false
+    ignore_changes = [
+      "SPRING_DATASOURCE_URL",
+      "SPRING_CLIENTE_DATASOURCE_URL",
+    ]
   }
 }
 

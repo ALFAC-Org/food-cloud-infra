@@ -52,4 +52,5 @@ terraform $METHOD $PARAMS \
 -var "food_cliente_db_name=$DB_FOOD_CLIENT_NAME" \
 -var "food_cliente_db_host=$DB_FOOD_CLIENT_HOST_NAME" \
 -var "food_produto_db_table_name=$FOOD_PRODUTO_DB_TABLE_NAME" \
--var "food_produto_service_port=$FOOD_PRODUTO_SERVICE_PORT"
+-var "food_produto_service_port=$FOOD_PRODUTO_SERVICE_PORT" \
+-var "food_produto_image_version=$FOOD_PRODUTO_VERSION"
