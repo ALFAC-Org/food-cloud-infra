@@ -43,7 +43,4 @@ terraform $METHOD $PARAMS \
 -var "db_host=$DB_HOST" \
 -var "kubernetes_namespace=$CLUSTER_NAMESPACE" \
 -var "cluster_name=$CLUSTER_NAME" \
--var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME" \
--var "food_produto_db_table_name=$FOOD_PRODUTO_DB_TABLE_NAME" \
--var "food_produto_service_port=$FOOD_PRODUTO_SERVICE_PORT" \
--var "food_produto_image_version=$FOOD_PRODUTO_VERSION"
+-var "bucket_food_lambdas=$LAMBDA_BUCKET_NAME"

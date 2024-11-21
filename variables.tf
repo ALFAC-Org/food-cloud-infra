@@ -159,27 +159,3 @@ variable "db_host" {
   type        = string
   default     = ""
 }
-
-# FOOD PRODUTO Variables
-variable "food_produto_service_port" {
-  description = "The port where the application will be listening"
-  type        = string
-  default     = "30003"
-}
-
-variable "food_produto_image_name" {
-  description = "The name of the image to deploy"
-  type        = string
-  default     = "food-produto"
-}
-
-variable "food_produto_image_version" {
-  description = "The version of the image to deploy"
-  type        = string
-  default     = "latest"
-}
-
-variable "food_produto_db_table_name" {
-  description = "Username for the database"
-  type        = string
-}
