@@ -16,7 +16,7 @@ Este é um repositório Git que utiliza o Terraform para gerenciar infraestrutur
 
 ## Diagrama
 
-TODO:
+![Diagrama de Arquitetura](docs/diagrama-arquitetura.png)
 
 ## Tutoriais
 
