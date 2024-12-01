@@ -3,12 +3,12 @@
 Este é um repositório Git que utiliza o Terraform para gerenciar infraestrutura na nuvem da aplicação [Fast Food - ALFAC](https://github.com/ALFAC-Org/food). Nele, você encontrará arquivos de configuração do Terraform que definem a infraestrutura como código. No momento, o repositório está focado na Amazon Web Services (AWS), entretanto, o repositório é flexível para adaptação para outros provedores de serviços de nuvem.
 
 > [!WARNING]
-> Para completo funcionamento da plataforma, é necessário seguir todo o fluxo de provisionamento: 
-> 1. A provisão deste repositório; 
-> 2. A provisão do repositório dos bancos de dados: [https://github.com/ALFAC-Org/food-database](https://github.com/ALFAC-Org/food-database); 
+> Para completo funcionamento da plataforma, é necessário seguir todo o fluxo de provisionamento:
+> 1. A provisão deste repositório;
+> 2. A provisão do repositório dos bancos de dados: [https://github.com/ALFAC-Org/food-database](https://github.com/ALFAC-Org/food-database);
 > 3. A provisão das lambdas: [https://github.com/ALFAC-Org/food-serveless-function](https://github.com/ALFAC-Org/food-serveless-function);
-> 4. A provisão das aplicações: 
->    5. [https://github.com/ALFAC-Org/food-cliente](https://github.com/ALFAC-Org/food-cliente);
+> 4. A provisão das aplicações:
+     >    5. [https://github.com/ALFAC-Org/food-cliente](https://github.com/ALFAC-Org/food-cliente);
 >    6. [https://github.com/ALFAC-Org/food-produto](https://github.com/ALFAC-Org/food-produto);
 > 4. E por fim, o provisionamento da aplicação principal em [https://github.com/ALFAC-Org/food](https://github.com/ALFAC-Org/food).
 
